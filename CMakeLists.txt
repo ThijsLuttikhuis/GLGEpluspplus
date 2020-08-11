@@ -1,4 +1,3 @@
-# CMake entry point
 cmake_minimum_required (VERSION 3.0)
 project (GLGEplusplus)
 
@@ -20,12 +19,6 @@ include_directories(
 	external/bullet-2.81-rev2613/src/
 )
 
-set(ALL_LIBS
-	${OPENGL_LIBRARY}
-	glfw
-	GLEW_1130
-)
-
 add_definitions(
 	-DTW_STATIC
 	-DTW_NO_LIB_PRAGMA
@@ -34,5 +27,17 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
+# set flags
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-Og")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+# make executable
 add_executable(GLGEplusplus
 		src/main.cpp)
+
+target_link_libraries(GLGEplusplus
+		${OPENGL_LIBRARY}
+		glfw
+		GLEW_1130
+		)
