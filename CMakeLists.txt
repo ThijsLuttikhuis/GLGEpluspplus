@@ -28,13 +28,32 @@ add_definitions(
 )
 
 # set flags
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-Og")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wnone")
+
+set(WINDOW_DIR
+		src/window/Window.cpp
+		src/window/Window.h
+		src/window/Camera.cpp
+		src/window/Camera.h
+		)
+
+set(INPUT_DIR
+		src/input/KeyboardInput.cpp
+		src/input/KeyboardInput.h
+		src/input/MouseInput.cpp
+		src/input/MouseInput.h
+        )
+
+
 
 # make executable
 add_executable(GLGEplusplus
-		src/main.cpp)
+		src/main.cpp
+
+		${WINDOW_DIR}
+		${INPUT_DIR}
+		)
 
 target_link_libraries(GLGEplusplus
 		${OPENGL_LIBRARY}

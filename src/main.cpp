@@ -7,66 +7,45 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-using namespace glm;
+#include "input/MouseInput.h"
+#include "input/KeyboardInput.h"
+#include "window/Window.h"
+
 
 int main() {
-    GLFWwindow* window;
+    // create window
+    auto* window = new Window(1024, 768, "Window");
 
-    // Initialize glfw
-    if (!glfwInit()) {
-        fprintf(stderr, "Failed to initialize GLFW\n");
-        getchar();
-        return -1;
-    }
+    // create inputs
+    auto* mouse = new MouseInput(window, GLGE_MOUSE_FPS);
+    auto* keyboard = new KeyboardInput(window, GLGE_STICKY_KEYS);
 
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // Open window
-    window = glfwCreateWindow(1024, 768, "Window", nullptr, nullptr);
-    if (window == nullptr) {
-        fprintf(stderr,
-                "Failed to open GLFW window.");
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-
-    // Initialize GLEW
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-
-    // Capture keys
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-
-    // Dark grey background
-    glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+    // set dark grey background
+    glm::vec4 clearColor = {0.1f, 0.1f, 0.1f, 0.0f};
+    window->setClearColor(clearColor);
 
     while (true) {
         // Clear screen
-        glClear(GL_COLOR_BUFFER_BIT);
+        window->clear(GL_COLOR_BUFFER_BIT);
 
         // Swap buffers
-        glfwSwapBuffers(window);
+        window->swapBuffers();
+
         glfwPollEvents();
 
+
+        mouse->update(window);
+        keyboard->update(window);
+
         // Check for exit button
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
-            glfwWindowShouldClose(window) != 0) {
+        if (keyboard->getExit(window)) {
             break;
         }
+
     }
 
     // Exit procedure
-    glfwTerminate();
+    delete window;
 
     return 0;
 
