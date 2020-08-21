@@ -5,17 +5,21 @@
 #include "KeyboardInput.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
+#include <iostream>
 
 
 KeyboardInput::KeyboardInput(Window* handle, int mode_) : mode(mode_) {
     // Capture keys
-
     auto* window = handle->getWindow();
+    auto width = static_cast<double>(handle->getWidth());
+    auto height = static_cast<double>(handle->getHeight());
+
     switch (mode) {
         case 0x0001:
             // Set the mouse at the center of the screen
             glfwPollEvents();
-            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
+            glfwSetCursorPos(window, width / 2, height / 2);
+            glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
             break;
 
         case 0x0002:
@@ -23,10 +27,10 @@ KeyboardInput::KeyboardInput(Window* handle, int mode_) : mode(mode_) {
         case 0x0008:
         default:
             glfwPollEvents();
-            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
+            glfwSetCursorPos(window, width / 2, height / 2);
+            glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
             break;
     }
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 }
 
 void KeyboardInput::update(Window* handle) {
@@ -64,8 +68,7 @@ void KeyboardInput::update(Window* handle) {
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
         pos -= right * dt * moveSpeed;
     }
-
-
+    camera->setPosition(pos);
 }
 
 bool KeyboardInput::getExit(Window* handle) {
@@ -73,5 +76,4 @@ bool KeyboardInput::getExit(Window* handle) {
 
     return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
             glfwWindowShouldClose(window) != 0;
-
 }

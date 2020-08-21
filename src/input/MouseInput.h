@@ -7,10 +7,10 @@
 
 
 
-#define GLGE_MOUSE_FPS 0x0001
-#define GLGE_MOUSE_2__ 0x0002
-#define GLGE_MOUSE_3__ 0x0004
-#define GLGE_MOUSE_4__ 0x0008
+#define GLGE_MOUSE_FPS          0x0001
+#define GLGE_MOUSE_CURSOR_FPS   0x0002
+#define GLGE_MOUSE_3__          0x0004
+#define GLGE_MOUSE_4__          0x0008
 
 class Window;
 

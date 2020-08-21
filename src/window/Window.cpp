@@ -8,7 +8,8 @@
 
 Window::Window(int width_, int height_, const std::string &name) : width(width_), height(height_) {
 
-    if( !glfwInit() ) {
+    // initialize GLFW
+    if (!glfwInit()) {
         std::cout << "Failed to initialize GLFW." << std::endl;
         getchar();
     }
@@ -22,7 +23,7 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     // Open a window and create its OpenGL context
     window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 
-    if(window == nullptr ) {
+    if (window == nullptr) {
         std::cout << "Failed to open GLFW window." << std::endl;
         getchar();
         glfwTerminate();
@@ -30,6 +31,7 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     glfwMakeContextCurrent(window);
 
     // Initialize GLEW
+    glewExperimental = true; // Needed for core profile
     if (glewInit() != GLEW_OK) {
         std::cout << "Failed to initialize GLEW" << std::endl;
         getchar();
@@ -47,6 +49,7 @@ Window::~Window() {
 
 
 void Window::clear(int flags) {
+    lastFrameTime = 0.1;
     glClear(flags);
 }
 

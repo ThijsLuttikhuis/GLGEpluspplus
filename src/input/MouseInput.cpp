@@ -16,9 +16,13 @@ MouseInput::MouseInput(Window* handle, int mode_) : mode(mode_) {
             // Set the mouse at the center of the screen
             glfwPollEvents();
             glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             break;
 
         case 0x0002:
+            // Set the mouse at the center of the screen
+            glfwPollEvents();
+            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
         case 0x0004:
         case 0x0008:
         default:
@@ -48,10 +52,10 @@ void MouseInput::update(Window* handle) {
     // Reset mouse position for next frame
     glfwSetCursorPos(window, width/2, height/2);
 
-    hAngle += mouseSpeed * width/2 - xpos;
-    vAngle += mouseSpeed * height/2 - ypos;
+    hAngle += mouseSpeed * (width/2 - xpos);
+    vAngle += mouseSpeed * (height/2 - ypos);
+
     camera->setHorizontalAngle(hAngle);
     camera->setVerticalAngle(vAngle);
 }
-
 

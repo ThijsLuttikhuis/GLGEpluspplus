@@ -26,20 +26,25 @@ private:
 public:
 
     Window(int width, int height, const std::string &name);
+
     ~Window();
 
     GLFWwindow* getWindow() const;
+
     Camera* getCamera() const;
+
     int getWidth() const;
+
     int getHeight() const;
+
     float getLastFrameTime() const;
 
     void clear(int flags);
 
     void setClearColor(const glm::vec4 &color);
 
-    bool operator==(std::nullptr_t other) {
-        return window == other;
+    bool operator !() {
+        return !window;
     }
 
     void swapBuffers();
