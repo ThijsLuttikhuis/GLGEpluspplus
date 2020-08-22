@@ -99,5 +99,5 @@ void Window::update() {
     auto far = 100.0f;
 
     camera->updateMatrices(aspectRatio, near, far);
-    
+
 }
