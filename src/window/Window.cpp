@@ -5,6 +5,9 @@
 #include <GL/glew.h>
 #include <iostream>
 #include "Window.h"
+#include <glm/vec4.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 Window::Window(int width_, int height_, const std::string &name) : width(width_), height(height_) {
 
@@ -49,7 +52,6 @@ Window::~Window() {
 
 
 void Window::clear(int flags) {
-    lastFrameTime = 0.1;
     glClear(flags);
 }
 
@@ -69,7 +71,7 @@ int Window::getHeight() const {
     return height;
 }
 
-float Window::getLastFrameTime() const {
+double Window::getLastFrameTime() const {
     return lastFrameTime;
 }
 
@@ -79,4 +81,24 @@ GLFWwindow* Window::getWindow() const {
 
 Camera* Window::getCamera() const {
     return camera;
+}
+
+void Window::updateFrameTime() {
+    auto t = glfwGetTime();
+    lastFrameTime = t - time;
+    time = t;
+    std::cout << lastFrameTime * 1000 << " ms" << std::endl;
+}
+
+void Window::update() {
+
+    auto w = static_cast<float>(width);
+    auto h = static_cast<float>(height);
+    auto aspectRatio = w/h;
+    auto near = 0.1f;
+    auto far = 100.0f;
+
+    camera->updateMatrices(aspectRatio, near, far);
+
+
 }

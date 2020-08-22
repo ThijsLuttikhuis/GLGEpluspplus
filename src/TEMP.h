@@ -15,7 +15,7 @@
 #include <glm/detail/type_mat4x4.hpp>
 
 class TEMP {
-
+//TODO: THIS CLASS
     //SHADER
 public:
     static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
@@ -212,15 +212,7 @@ public:
 
     }
 
-    static glm::mat4 ViewMatrix;
-    static glm::mat4 ProjectionMatrix;
 
-    static glm::mat4 getViewMatrix(){
-        return ViewMatrix;
-    }
-    static glm::mat4 getProjectionMatrix(){
-        return ProjectionMatrix;
-    }
 
 };
 

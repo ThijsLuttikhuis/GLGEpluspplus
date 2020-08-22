@@ -3,7 +3,3 @@
 //
 
 #include "TEMP.h"
-
-
-glm::mat4 TEMP::ViewMatrix;
-glm::mat4 TEMP::ProjectionMatrix;

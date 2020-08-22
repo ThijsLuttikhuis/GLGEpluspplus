@@ -9,6 +9,8 @@
 #include <string>
 #include <GLFW/glfw3.h>
 #include <glm/vec4.hpp>
+#include <glm/detail/type_mat.hpp>
+#include <glm/detail/type_mat4x4.hpp>
 #include "Camera.h"
 
 class Window {
@@ -21,7 +23,9 @@ private:
     GLFWwindow* window;
     Camera* camera;
 
-    double lastFrameTime;
+    double lastFrameTime = 0.0;
+    double time = 0.0;
+
 
 public:
 
@@ -37,7 +41,7 @@ public:
 
     int getHeight() const;
 
-    float getLastFrameTime() const;
+    double getLastFrameTime() const;
 
     void clear(int flags);
 
@@ -48,6 +52,10 @@ public:
     }
 
     void swapBuffers();
+
+    void update();
+
+    void updateFrameTime();
 };
 
 

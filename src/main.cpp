@@ -143,27 +143,22 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
 
-
+    //glfwSwapInterval(0);
 
     while (true) {
-        // Clear screen
+        window->updateFrameTime();
         window->clear((uint)GL_COLOR_BUFFER_BIT | (uint)GL_DEPTH_BUFFER_BIT);
 
         // Use shader
         glUseProgram(programID);
 
-        // Compute the MVP matrix from keyboard and mouse input
         mouse->update(window);
         keyboard->update(window);
-
-        glm::mat4 ProjectionMatrix = TEMP::getProjectionMatrix();
-        glm::mat4 ViewMatrix = TEMP::getViewMatrix();
-        glm::mat4 ModelMatrix = glm::mat4(1.0);
-        glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+        window->update();
 
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &window->getCamera()->getMVP()[0][0]);
 
         // Bind our texture in Texture Unit 0
         glActiveTexture(GL_TEXTURE0);
@@ -180,7 +175,7 @@ int main() {
               GL_FLOAT,           // type
               GL_FALSE,           // normalized?
               0,                  // stride
-              (void*)0            // array buffer offset
+              nullptr             // array buffer offset
         );
 
         // 2nd attribute buffer : UVs
@@ -192,7 +187,7 @@ int main() {
               GL_FLOAT,                         // type
               GL_FALSE,                         // normalized?
               0,                                // stride
-              (void*)0                          // array buffer offset
+              nullptr                           // array buffer offset
         );
 
         // Draw the triangle !
@@ -200,7 +195,6 @@ int main() {
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
-
 
         // Swap buffers
         window->swapBuffers();
