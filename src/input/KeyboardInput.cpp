@@ -35,37 +35,29 @@ KeyboardInput::KeyboardInput(Window* handle, int mode_) : mode(mode_) {
 
 void KeyboardInput::update(Window* handle) {
 
-    float dt = handle->getLastFrameTime();
+    auto dt = static_cast<float>(handle->getLastFrameTime());
 
     auto* window = handle->getWindow();
 
     auto* camera = handle->getCamera();
     auto pos = camera->getPosition();
-    auto hAngle = camera->getHorizontalAngle();
-    auto vAngle = camera->getVerticalAngle();
-
-    glm::vec3 direction = {cos(vAngle) * sin(hAngle),
-                           sin(vAngle),
-                           cos(vAngle) * cos(hAngle)};
-    glm::vec3 right = glm::vec3{sin(hAngle - M_PI_2),
-                                0,
-                                cos(hAngle - M_PI_2)};
-
+    auto dir = camera->getDirection();
+    auto right = camera->getRight();
 
     // Move forward
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        pos += direction * dt * moveSpeed;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        pos += dir * dt * moveSpeed;
     }
     // Move backward
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        pos -= direction * dt * moveSpeed;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        pos -= dir * dt * moveSpeed;
     }
     // Strafe right
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         pos += right * dt * moveSpeed;
     }
     // Strafe left
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         pos -= right * dt * moveSpeed;
     }
     camera->setPosition(pos);
