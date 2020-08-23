@@ -52,8 +52,12 @@ void MouseInput::update(Window* handle) {
     // Reset mouse position for next frame
     glfwSetCursorPos(window, width/2, height/2);
 
+    // Set vertical/horizontal angle
     hAngle += mouseSpeed * (width/2 - xpos);
     vAngle += mouseSpeed * (height/2 - ypos);
+
+    // Bound vertical angle
+    vAngle = vAngle < -M_PI_2 ? -M_PI_2 : vAngle > M_PI_2 ? M_PI_2 : vAngle;
 
     camera->setHorizontalAngle(hAngle);
     camera->setVerticalAngle(vAngle);

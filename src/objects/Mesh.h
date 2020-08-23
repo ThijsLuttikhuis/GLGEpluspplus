@@ -16,12 +16,20 @@ private:
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec3> normals;
+    std::vector<uint> indices;
 
+    uint vertexBuffer;
+    uint uvBuffer;
 
 public:
     Mesh();
+    ~Mesh();
 
+    void setBuffer(const std::vector<glm::vec3> &vertices_,
+                    const std::vector<glm::vec2> &uvs_);
 
+    const uint &getVertexBuffer() const;
+    const uint &getUVBuffer() const;
 };
 
 
