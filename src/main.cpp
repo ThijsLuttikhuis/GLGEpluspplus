@@ -11,6 +11,7 @@
 #include "input/KeyboardInput.h"
 #include "window/Window.h"
 #include "TEMP.h"
+#include "objects/Mesh.h"
 
 
 int main() {
@@ -24,22 +25,6 @@ int main() {
     auto* mouse = new MouseInput(window, GLGE_MOUSE_CURSOR_FPS);
     auto* keyboard = new KeyboardInput(window, GLGE_STICKY_KEYS);
 
-    // set dark grey background
-    glm::vec4 clearColor = {0.1f, 0.1f, 0.1f, 0.0f};
-    window->setClearColor(clearColor);
-
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
-
-    // Cull triangles which normal is not towards the camera
-    glEnable(GL_CULL_FACE);
-
-    GLuint VertexArrayID;
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-
     // Create and compile our GLSL program from the shaders
     GLuint programID = TEMP::LoadShaders( "TransformVertexShader.vertexshader", "TextureFragmentShader.fragmentshader" );
 
@@ -52,8 +37,12 @@ int main() {
     // Get a handle for our "myTextureSampler" uniform
     GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
 
-    // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-    // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
+   // auto* cube = new Mesh();
+
+    //cube->setObject()
+
+
+
     static const GLfloat g_vertex_buffer_data[] = {
           -1.0f,-1.0f,-1.0f,
           -1.0f,-1.0f, 1.0f,
@@ -212,7 +201,6 @@ int main() {
     glDeleteBuffers(1, &uvbuffer);
     glDeleteProgram(programID);
     glDeleteTextures(1, &TextureID);
-    glDeleteVertexArrays(1, &VertexArrayID);
 
     // Close OpenGL window and terminate GLFW
     glfwTerminate();

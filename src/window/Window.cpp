@@ -42,10 +42,33 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     }
 
     // Initialize Camera
-    camera = new Camera();
+    glm::vec3 position = glm::vec3( 0, 0, 5 );
+    float horizontalAngle = 0.0f;
+    float verticalAngle = 0.0f;
+    float fieldOfView = 45.0f;
+    camera = new Camera(position, horizontalAngle, verticalAngle, fieldOfView);
+
+    // set dark grey background
+    glm::vec4 clearColor = {0.1f, 0.1f, 0.1f, 0.0f};
+    setClearColor(clearColor);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+
+    // Cull triangles which normal is not towards the camera
+    glEnable(GL_CULL_FACE);
+
+    // Generate vertex array
+    glGenVertexArrays(1, &vertexArrayID);
+    glBindVertexArray(vertexArrayID);
+
 }
 
 Window::~Window() {
+    glDeleteVertexArrays(1, &vertexArrayID);
+
     glfwTerminate();
 }
 
@@ -101,3 +124,4 @@ void Window::update() {
     camera->updateMatrices(aspectRatio, near, far);
 
 }
+
