@@ -13,9 +13,9 @@ class Camera {
 private:
 // Initial position : on +Z
     glm::vec3 position = glm::vec3( 0, 0, 5 );
-    float horizontalAngle = 0.0f;
-    float verticalAngle = 0.0f;
-    float fieldOfView = 45.0f;
+    float horizontalAngle;
+    float verticalAngle;
+    float fieldOfView;
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
@@ -24,8 +24,6 @@ private:
 public:
     Camera(glm::vec3 pos, float hAngle, float vAngle, float fov)
             : position(pos), horizontalAngle(hAngle), verticalAngle(vAngle), fieldOfView(fov) {};
-
-    Camera() = default;
 
     const glm::vec3 &getPosition() const;
     float getHorizontalAngle() const;

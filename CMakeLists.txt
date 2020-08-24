@@ -43,16 +43,24 @@ set(INPUT_DIR
 		src/input/KeyboardInput.h
 		src/input/MouseInput.cpp
 		src/input/MouseInput.h
-        src/TEMP.cpp src/TEMP.h src/objects/Mesh.cpp src/objects/Mesh.h)
+		)
 
-
+set(OBJECTS_DIR
+		src/objects/Mesh.cpp
+		src/objects/Mesh.h
+		)
 
 # make executable
 add_executable(GLGEplusplus
 		src/main.cpp
 
 		${WINDOW_DIR}
+		${OBJECTS_DIR}
 		${INPUT_DIR}
+
+		src/TEMP.cpp
+		src/TEMP.h
+
 		)
 
 target_link_libraries(GLGEplusplus

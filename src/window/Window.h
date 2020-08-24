@@ -59,6 +59,13 @@ public:
 
     void updateFrameTime();
 
+    glm::vec2 getCursorPos();
+
+    void setCursorPos(glm::vec2 tvec2);
+
+    void setCursorPosToCenter();
+
+    glm::vec2 getCursorPosRelativeToCenter();
 };
 
 

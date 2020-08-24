@@ -15,46 +15,36 @@ MouseInput::MouseInput(Window* handle, int mode_) : mode(mode_) {
         case 0x0001:
             // Set the mouse at the center of the screen
             glfwPollEvents();
-            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             break;
 
         case 0x0002:
             // Set the mouse at the center of the screen
             glfwPollEvents();
-            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
+            break;
         case 0x0004:
         case 0x0008:
         default:
             glfwPollEvents();
-            glfwSetCursorPos(window, 1024.0 / 2, 768.0 / 2);
             break;
     }
+
+    handle->setCursorPosToCenter();
 }
 
 void MouseInput::update(Window* handle) {
 
-    auto width = static_cast<double>(handle->getWidth());
-
-    auto height = static_cast<double>(handle->getHeight());
-
-    auto* window = handle->getWindow();
 
     auto* camera = handle->getCamera();
     auto hAngle = camera->getHorizontalAngle();
     auto vAngle = camera->getVerticalAngle();
 
-    // Get mouse position
-    double xpos;
-    double ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
-
-    // Reset mouse position for next frame
-    glfwSetCursorPos(window, width/2, height/2);
+    auto relativeMousePos = handle->getCursorPosRelativeToCenter();
+    handle->setCursorPosToCenter();
 
     // Set vertical/horizontal angle
-    hAngle += mouseSpeed * (width/2 - xpos);
-    vAngle += mouseSpeed * (height/2 - ypos);
+    hAngle += mouseSpeed * relativeMousePos.x;
+    vAngle += mouseSpeed * relativeMousePos.y;
 
     // Bound vertical angle
     vAngle = vAngle < -M_PI_2 ? -M_PI_2 : vAngle > M_PI_2 ? M_PI_2 : vAngle;

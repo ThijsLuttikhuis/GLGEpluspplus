@@ -76,7 +76,7 @@ int main() {
           {1.0f,-1.0f, 1.0f}
     };
 
-    // Two UV coordinatesfor each vertex. They were created with Blender.
+    // Two UV coordinates for each vertex. They were created with Blender.
     const std::vector<glm::vec2> g_uv_buffer_data = {
           {0.000059f, 0.000004f},
           {0.000103f, 0.336048f},
@@ -116,11 +116,9 @@ int main() {
           {0.667979f, 0.335851f}
     };
 
-    auto* cube = new Mesh();
+    auto* cube = new Mesh(0, 1);
 
     cube->setBuffer(g_vertex_buffer_data, g_uv_buffer_data);
-
-    //glfwSwapInterval(0);
 
     while (true) {
         window->updateFrameTime();
@@ -143,35 +141,12 @@ int main() {
         // Set our "myTextureSampler" sampler to use Texture Unit 0
         glUniform1i(TextureID, 0);
 
-        // 1rst attribute buffer : vertices
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, cube->getVertexBuffer());
-        glVertexAttribPointer(
-              0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-              3,                  // size
-              GL_FLOAT,           // type
-              GL_FALSE,           // normalized?
-              0,                  // stride
-              nullptr             // array buffer offset
-        );
-
-        // 2nd attribute buffer : UVs
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, cube->getVertexBuffer());
-        glVertexAttribPointer(
-              1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-              2,                                // size : U+V => 2
-              GL_FLOAT,                         // type
-              GL_FALSE,                         // normalized?
-              0,                                // stride
-              nullptr                           // array buffer offset
-        );
+        cube->enableAttributeBuffer();
 
         // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles
+        glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
+        cube->disableAttributeBuffer();
 
         // Swap buffers
         window->swapBuffers();

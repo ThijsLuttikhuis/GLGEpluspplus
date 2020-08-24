@@ -45,7 +45,7 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     glm::vec3 position = glm::vec3( 0, 0, 5 );
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
-    float fieldOfView = 45.0f;
+    float fieldOfView = 90.0f;
     camera = new Camera(position, horizontalAngle, verticalAngle, fieldOfView);
 
     // set dark grey background
@@ -123,5 +123,29 @@ void Window::update() {
 
     camera->updateMatrices(aspectRatio, near, far);
 
+}
+
+glm::vec2 Window::getCursorPos() {
+    double xpos;
+    double ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    return {xpos, ypos};
+}
+
+void Window::setCursorPosToCenter() {
+    glfwSetCursorPos(window, width/2.0, height/2.0);
+}
+
+void Window::setCursorPos(glm::vec2 mousePos) {
+    glfwSetCursorPos(window, (double)mousePos.x, (double)mousePos.y);
+}
+
+glm::vec2 Window::getCursorPosRelativeToCenter() {
+    double xpos;
+    double ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    double xrel = width/2.0 - xpos;
+    double yrel = height/2.0 - ypos;
+    return {xrel, yrel};
 }
 

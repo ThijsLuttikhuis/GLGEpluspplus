@@ -21,8 +21,10 @@ private:
     uint vertexBuffer;
     uint uvBuffer;
 
+    uint vertexLocation;
+    uint uvLocation;
 public:
-    Mesh();
+    Mesh(uint vertexLocation, uint uvLocation);
     ~Mesh();
 
     void setBuffer(const std::vector<glm::vec3> &vertices_,
@@ -30,6 +32,10 @@ public:
 
     const uint &getVertexBuffer() const;
     const uint &getUVBuffer() const;
+
+    void enableAttributeBuffer();
+
+    void disableAttributeBuffer();
 };
 
 
