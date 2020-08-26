@@ -12,6 +12,7 @@
 #include "window/Window.h"
 #include "TEMP.h"
 #include "objects/Mesh.h"
+#include "window/Shader.h"
 
 
 int main() {
@@ -26,16 +27,18 @@ int main() {
     auto* keyboard = new KeyboardInput(window, GLGE_STICKY_KEYS);
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = TEMP::LoadShaders( "TransformVertexShader.vertexshader", "TextureFragmentShader.fragmentshader" );
+    auto* shader = new Shader();
+    shader->loadShader("TransformVertexShader.vertexshader",
+                      "TextureFragmentShader.fragmentshader");
 
     // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    GLuint MatrixID = glGetUniformLocation(shader->getProgramID(), "MVP");
 
     // Load the texture
     GLuint Texture = TEMP::loadDDS("uvtemplate.DDS");
 
     // Get a handle for our "myTextureSampler" uniform
-    GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
+    GLuint TextureID  = glGetUniformLocation(shader->getProgramID(), "myTextureSampler");
 
     const std::vector<glm::vec3> g_vertex_buffer_data = {
           {-1.0f,-1.0f,-1.0f},
@@ -125,7 +128,7 @@ int main() {
         window->clear((uint)GL_COLOR_BUFFER_BIT | (uint)GL_DEPTH_BUFFER_BIT);
 
         // Use shader
-        glUseProgram(programID);
+        glUseProgram(shader->getProgramID());
 
         mouse->update(window);
         keyboard->update(window);
@@ -159,12 +162,13 @@ int main() {
         }
     }
 
-    // Cleanup VBO and shader
-    glDeleteProgram(programID);
-    glDeleteTextures(1, &TextureID);
+    delete shader;
+    delete keyboard;
+    delete mouse;
+    delete window;
 
-    // Close OpenGL window and terminate GLFW
-    glfwTerminate();
+    // Cleanup VBO and shader
+    glDeleteTextures(1, &TextureID);
 
     return 0;
 }

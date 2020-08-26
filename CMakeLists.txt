@@ -48,7 +48,7 @@ set(INPUT_DIR
 set(OBJECTS_DIR
 		src/objects/Mesh.cpp
 		src/objects/Mesh.h
-		)
+        src/window/Shader.cpp src/window/Shader.h)
 
 # make executable
 add_executable(GLGEplusplus

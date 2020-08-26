@@ -26,7 +26,7 @@ private:
     double lastFrameTime = 0.0;
     double time = 0.0;
 
-    unsigned int vertexArrayID;
+    uint vertexArrayID;
 
 
 public:

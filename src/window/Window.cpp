@@ -63,12 +63,10 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     // Generate vertex array
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
-
 }
 
 Window::~Window() {
     glDeleteVertexArrays(1, &vertexArrayID);
-
     glfwTerminate();
 }
 
