@@ -27,6 +27,8 @@ public:
     Mesh(uint vertexLocation, uint uvLocation);
     ~Mesh();
 
+#define CubeMesh() Mesh()
+
     void setBuffer(const std::vector<glm::vec3> &vertices_,
                     const std::vector<glm::vec2> &uvs_);
 
@@ -36,6 +38,14 @@ public:
     void enableAttributeBuffer();
 
     void disableAttributeBuffer();
+
+    int triangleSize() const;
+
+    void draw();
+
+    static std::vector<glm::vec3>
+    CreateCuboid(float length, float width, float height, float xCenter, float yCenter, float zCenter,
+                 float horizontalAngle, float verticalAngle);
 };
 
 

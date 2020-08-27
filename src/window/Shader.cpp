@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include "Shader.h"
+#include "../TEMP.h"
 
 const uint &Shader::getVertexShaderID() const {
     return vertexShaderID;
@@ -102,4 +103,32 @@ void Shader::checkLog(const int &shaderID, int &logLength) {
 
 Shader::~Shader() {
     glDeleteProgram(programID);
+    glDeleteTextures(1, &textureID);
+}
+
+void Shader::setUniformLocationMVP(const std::string &MVPName) {
+    matrixID  = glGetUniformLocation(programID, MVPName.c_str());
+}
+
+void Shader::setUniformLocationTexture(const std::string &textureName) {
+    textureID = glGetUniformLocation(programID, textureName.c_str());
+}
+
+void Shader::update(Window* handle) {
+    // update MVP
+    auto* camera = handle->getCamera();
+    auto MVP = camera->getMVP();
+    auto& MVPref = MVP[0][0];
+
+    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVPref);
+
+    // bind texture in Texture Unit 0
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glUniform1i(textureID, 0);
+
+}
+
+void Shader::setTextureFromDDS(const std::string &fileName) {
+    texture = TEMP::loadDDS(fileName.c_str());
 }
