@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <iostream>
+#include <glm/glm.hpp>
 
 
 KeyboardInput::KeyboardInput(Window* handle, int mode_) : mode(mode_) {
@@ -41,25 +42,31 @@ void KeyboardInput::update(Window* handle) {
 
     auto* camera = handle->getCamera();
     auto pos = camera->getPosition();
-    auto dir = camera->getDirection();
+    auto vel = glm::vec3(0.0f, 0.0f, 0.0f);
+    auto forwards = camera->getHorizonForwards();
     auto right = camera->getRight();
 
     // Move forward
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        pos += dir * dt * moveSpeed;
+        vel += glm::normalize(forwards);
     }
     // Move backward
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        pos -= dir * dt * moveSpeed;
+        vel -= glm::normalize(forwards);
     }
     // Strafe right
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        pos += right * dt * moveSpeed;
+        vel += glm::normalize(right);
     }
     // Strafe left
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        pos -= right * dt * moveSpeed;
+        vel -= glm::normalize(right);
     }
+    if (glm::length(vel) > 0.01f) {
+        vel = glm::normalize(vel) * moveSpeed;
+    }
+    pos += vel * dt;
+
     camera->setPosition(pos);
 }
 

@@ -66,6 +66,8 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
 }
 
 Window::~Window() {
+    delete camera;
+
     glDeleteVertexArrays(1, &vertexArrayID);
     glfwTerminate();
 }
@@ -74,6 +76,10 @@ Window::~Window() {
 
 void Window::clear(int flags) {
     glClear(flags);
+}
+
+void Window::clear() {
+    clear((uint)GL_COLOR_BUFFER_BIT | (uint)GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::setClearColor(const glm::vec4 &color) {
@@ -112,7 +118,6 @@ void Window::updateFrameTime() {
 }
 
 void Window::update() {
-
     auto w = static_cast<float>(width);
     auto h = static_cast<float>(height);
     auto aspectRatio = w/h;
@@ -120,7 +125,6 @@ void Window::update() {
     auto far = 100.0f;
 
     camera->updateMatrices(aspectRatio, near, far);
-
 }
 
 glm::vec2 Window::getCursorPos() {
@@ -146,4 +150,3 @@ glm::vec2 Window::getCursorPosRelativeToCenter() {
     double yrel = height/2.0 - ypos;
     return {xrel, yrel};
 }
-

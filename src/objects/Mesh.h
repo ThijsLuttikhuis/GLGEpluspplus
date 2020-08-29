@@ -11,12 +11,17 @@
 #include <glm/vec2.hpp>
 #include <vector>
 
-class Mesh {
-private:
+class TextureMesh {
+public:
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec3> normals;
     std::vector<uint> indices;
+};
+
+class Mesh {
+private:
+    TextureMesh textureMesh;
 
     uint vertexBuffer;
     uint uvBuffer;
@@ -27,10 +32,10 @@ public:
     Mesh(uint vertexLocation, uint uvLocation);
     ~Mesh();
 
-#define CubeMesh() Mesh()
-
     void setBuffer(const std::vector<glm::vec3> &vertices_,
                     const std::vector<glm::vec2> &uvs_);
+
+    void setBuffer(const TextureMesh &textureMesh_);
 
     const uint &getVertexBuffer() const;
     const uint &getUVBuffer() const;
@@ -43,9 +48,9 @@ public:
 
     void draw();
 
-    static std::vector<glm::vec3>
-    CreateCuboid(float length, float width, float height, float xCenter, float yCenter, float zCenter,
-                 float horizontalAngle, float verticalAngle);
+    static TextureMesh CreateCuboid(float length, float width, float height,
+                                    float xCenter, float yCenter, float zCenter,
+                                    float horizontalAngle, float verticalAngle);
 };
 
 

@@ -47,7 +47,12 @@ void MouseInput::update(Window* handle) {
     vAngle += mouseSpeed * relativeMousePos.y;
 
     // Bound vertical angle
-    vAngle = vAngle < -M_PI_2 ? -M_PI_2 : vAngle > M_PI_2 ? M_PI_2 : vAngle;
+    float delta = 0.01f;
+    float maxVerticalAngle = M_PI_2 - delta;
+
+    vAngle = vAngle < -maxVerticalAngle ? -maxVerticalAngle :
+             vAngle > maxVerticalAngle ? maxVerticalAngle :
+             vAngle;
 
     camera->setHorizontalAngle(hAngle);
     camera->setVerticalAngle(vAngle);

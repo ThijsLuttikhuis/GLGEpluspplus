@@ -44,6 +44,8 @@ public:
     void update(Window* handle);
 
     void setTextureFromDDS(const std::string &fileName);
+
+    void useShader();
 };
 
 

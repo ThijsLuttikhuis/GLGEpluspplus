@@ -38,77 +38,48 @@ int main() {
     // load matrix
     shader->setUniformLocationMVP("MVP");
 
-    // create cube triangles
-    const std::vector<glm::vec3> cubeBuffer = Mesh::CreateCuboid(4.0f, 2.0f, 1.2f,
+    // create cube
+
+
+    auto cubeBuffer = Mesh::CreateCuboid(4.0f, 2.0f, 1.2f,
                                                                 0.0f, 0.0f, 0.0f,
                                                                 0.0f, 0.0f);
-
-    // Two UV coordinates for each vertex. They were created with Blender.
-    const std::vector<glm::vec2> g_uv_buffer_data = {
-          {0.000f, 0.000f},
-          {0.000f, 0.333f},
-          {0.333f, 0.333f},
-          {1.000f, 0.000f},
-          {0.667f, 0.333f},
-          {0.000f, 0.333f},
-          {0.667f, 0.333f},
-          {0.333f, 0.667f},
-          {0.667f, 0.667f},
-          {1.000f, 0.000f},
-          {0.667f, 0.000f},
-          {0.667f, 0.333f},
-          {0.000f, 0.000f},
-          {0.333f, 0.333f},
-          {0.333f, 0.000f},
-          {0.667f, 0.333f},
-          {0.333f, 0.333f},
-          {0.333f, 0.667f},
-          {1.000f, 0.667f},
-          {0.000f, 0.333f},
-          {0.667f, 0.333f},
-          {0.667f, 0.000f},
-          {0.333f, 0.333f},
-          {0.667f, 0.333f},
-          {0.333f, 0.333f},
-          {0.667f, 0.000f},
-          {0.333f, 0.000f},
-          {0.000f, 0.333f},
-          {0.000f, 0.667f},
-          {0.333f, 0.667f},
-          {0.000f, 0.333f},
-          {0.333f, 0.667f},
-          {0.333f, 0.333f},
-          {0.667f, 0.667f},
-          {1.000f, 0.667f},
-          {0.667f, 0.333f}
-    };
-
     auto* cube = new Mesh(0, 1);
-    cube->setBuffer(cubeBuffer, g_uv_buffer_data);
+    cube->setBuffer(cubeBuffer);
+
+    // create second
+    auto cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.0f, 1.2f,
+                                                                 4.0f, 2.0f, 0.0f,
+                                                                 0.0f, 0.0f);
+    auto* cube2 = new Mesh(0, 1);
+    cube2->setBuffer(cubeBuffer2);
+
 
     while (true) {
         window->updateFrameTime();
-        window->clear((uint)GL_COLOR_BUFFER_BIT | (uint)GL_DEPTH_BUFFER_BIT);
+        window->clear();
 
-        // Use shader
-        glUseProgram(shader->getProgramID());
+        // use shader
+        shader->useShader();
 
+        // update input
         mouse->update(window);
         keyboard->update(window);
 
+        // update output
         window->update();
-
         shader->update(window);
 
+        // draw output
         cube->draw();
+        cube2->draw();
 
-
-        // Swap buffers
+        // swap buffers
         window->swapBuffers();
 
         glfwPollEvents();
 
-        // Check for exit button
+        // check for exit button
         if (keyboard->getExit(window)) {
             break;
         }

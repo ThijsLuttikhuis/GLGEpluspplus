@@ -37,6 +37,7 @@ public:
     glm::vec3 getDirection() const;
     glm::vec3 getRight() const;
     glm::vec3 getUp() const;
+    glm::vec3 getHorizonForwards() const;
 
     void setPosition(const glm::vec3 &position);
     void setHorizontalAngle(float horizontalAngle);

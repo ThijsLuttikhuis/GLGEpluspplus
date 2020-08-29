@@ -28,7 +28,6 @@ private:
 
     uint vertexArrayID;
 
-
 public:
 
     Window(int width, int height, const std::string &name);
@@ -46,6 +45,7 @@ public:
     double getLastFrameTime() const;
 
     void clear(int flags);
+    void clear();
 
     void setClearColor(const glm::vec4 &color);
 

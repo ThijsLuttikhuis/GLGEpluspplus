@@ -55,6 +55,14 @@ glm::vec3 Camera::getUp() const {
     return glm::cross(getRight(), getDirection());
 }
 
+glm::vec3 Camera::getHorizonForwards() const {
+    auto dir = getDirection();
+    auto length = glm::length(dir);
+    glm::vec3 forwards = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z))*length;
+    return forwards;
+}
+
+
 
 const glm::mat4 &Camera::getViewMatrix() const {
     return viewMatrix;
@@ -86,5 +94,4 @@ void Camera::updateMatrices(float aspectRatio, float near, float far) {
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     MVP = projectionMatrix * viewMatrix * ModelMatrix;
 }
-
 

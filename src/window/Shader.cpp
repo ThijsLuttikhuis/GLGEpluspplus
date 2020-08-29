@@ -132,3 +132,7 @@ void Shader::update(Window* handle) {
 void Shader::setTextureFromDDS(const std::string &fileName) {
     texture = TEMP::loadDDS(fileName.c_str());
 }
+
+void Shader::useShader() {
+    glUseProgram(programID);
+}
