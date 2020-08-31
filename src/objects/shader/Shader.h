@@ -9,20 +9,18 @@
 #include <GL/glew.h>
 #include <string>
 #include <map>
-#include "Window.h"
+#include "../../window/Window.h"
 
 
 class Shader {
-private:
+protected:
     // shaders
-    uint vertexShaderID;
+    uint shaderID;
     uint fragmentShaderID;
     uint programID;
 
     uint matrixID;
-    uint textureID;
-
-    uint texture;
+    uint attrID;
 
     static std::string getShaderCode(const std::string &shader);
     static void compileShader(const std::string &shaderCode, const int &shaderID, int &result, int &logLength);
@@ -32,18 +30,16 @@ public:
     Shader() = default;
     ~Shader();
 
-    const uint &getVertexShaderID() const;
-    const uint &getFragmentShaderID() const;
-    const uint &getProgramID() const;
-
     bool loadShader(const std::string &vertexShader, const std::string &fragmentShader);
 
     void setUniformLocationMVP(const std::string &MVPName);
-    void setUniformLocationTexture(const std::string &textureName);
+    void setUniformLocationAttr(const std::string &textureName);
 
-    void update(Window* handle);
+    virtual void setAttr(uint attr) = 0;
 
-    void setTextureFromDDS(const std::string &fileName);
+    virtual void update(Window* handle) = 0;
+
+    static uint getTextureFromDDS(const std::string &fileName);
 
     void useShader();
 };

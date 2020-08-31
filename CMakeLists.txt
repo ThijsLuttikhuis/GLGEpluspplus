@@ -46,9 +46,9 @@ set(INPUT_DIR
 		)
 
 set(OBJECTS_DIR
-		src/objects/Mesh.cpp
-		src/objects/Mesh.h
-        src/window/Shader.cpp src/window/Shader.h)
+		src/objects/mesh/Mesh.cpp
+		src/objects/mesh/Mesh.h
+        src/objects/shader/Shader.cpp src/objects/shader/Shader.h src/objects/Object.cpp src/objects/Object.h src/objects/PhysicsBody.cpp src/objects/PhysicsBody.h src/objects/mesh/ColorMesh.cpp src/objects/mesh/ColorMesh.h src/objects/mesh/TextureMesh.cpp src/objects/mesh/TextureMesh.h src/objects/shader/TextureShader.cpp src/objects/shader/TextureShader.h src/objects/shader/ColorShader.cpp src/objects/shader/ColorShader.h)
 
 # make executable
 add_executable(GLGEplusplus

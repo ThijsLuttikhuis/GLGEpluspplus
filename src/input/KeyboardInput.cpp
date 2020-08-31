@@ -62,6 +62,15 @@ void KeyboardInput::update(Window* handle) {
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         vel -= glm::normalize(right);
     }
+    // Up
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        vel += glm::normalize(glm::cross(right, forwards));
+    }
+    // Down
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        vel -= glm::normalize(glm::cross(right, forwards));
+    }
+
     if (glm::length(vel) > 0.01f) {
         vel = glm::normalize(vel) * moveSpeed;
     }

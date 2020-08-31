@@ -11,9 +11,14 @@
 #include "input/KeyboardInput.h"
 #include "window/Window.h"
 #include "TEMP.h"
-#include "objects/Mesh.h"
-#include "window/Shader.h"
 
+#include "objects/shader/Shader.h"
+#include "objects/shader/TextureShader.h"
+#include "objects/shader/ColorShader.h"
+
+#include "objects/mesh/Mesh.h"
+#include "objects/mesh/TextureMesh.h"
+#include "objects/mesh/ColorMesh.h"
 
 int main() {
     // create window
@@ -27,31 +32,42 @@ int main() {
     auto* keyboard = new KeyboardInput(window, GLGE_STICKY_KEYS);
 
     // create and compile shaders
-    auto* shader = new Shader();
-    shader->loadShader("TransformVertexShader.vertexshader",
-                      "TextureFragmentShader.fragmentshader");
+    auto* textureShader = new TextureShader();
+    textureShader->loadShader("TransformUVVertexShader.vertexshader",
+                              "TextureFragmentShader.fragmentshader");
 
     // load texture
-    shader->setTextureFromDDS("uvtemplate.DDS");
-    shader->setUniformLocationTexture("textureSampler");
+    textureShader->setAttr(Shader::getTextureFromDDS("uvtemplate.DDS"));
+    textureShader->setUniformLocationAttr("textureSampler");
 
     // load matrix
-    shader->setUniformLocationMVP("MVP");
+    textureShader->setUniformLocationMVP("MVP");
+
+    auto* colorShader = new ColorShader();
+    colorShader->loadShader("TransformColorVertexShader.vertexshader",
+                            "ColorFragmentShader.fragmentshader");
+
+    // load matrix
+    textureShader->setUniformLocationMVP("MVP");
+
+
+    // create sphere
+    auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 2.0f, 0.0f, 0.0f, 0.0f);
+    Mesh* sphere = new ColorMesh(0, 1);
+    sphere->setBuffer(sphereBuffer);
 
     // create cube
-
-
-    auto cubeBuffer = Mesh::CreateCuboid(4.0f, 2.0f, 1.2f,
+    auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.0f, 1.2f,
                                                                 0.0f, 0.0f, 0.0f,
                                                                 0.0f, 0.0f);
-    auto* cube = new Mesh(0, 1);
+    Mesh* cube = new TextureMesh(0, 1);
     cube->setBuffer(cubeBuffer);
 
     // create second
-    auto cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.0f, 1.2f,
+    auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.0f, 1.2f,
                                                                  4.0f, 2.0f, 0.0f,
                                                                  0.0f, 0.0f);
-    auto* cube2 = new Mesh(0, 1);
+    Mesh* cube2 = new TextureMesh(0, 1);
     cube2->setBuffer(cubeBuffer2);
 
 
@@ -59,8 +75,7 @@ int main() {
         window->updateFrameTime();
         window->clear();
 
-        // use shader
-        shader->useShader();
+
 
         // update input
         mouse->update(window);
@@ -68,9 +83,17 @@ int main() {
 
         // update output
         window->update();
-        shader->update(window);
 
-        // draw output
+        // use color shader
+        colorShader->useShader();
+        colorShader->update(window);
+        // draw sphere
+        sphere->draw();
+
+        // use texture shader
+        textureShader->useShader();
+        textureShader->update(window);
+        // draw cubes
         cube->draw();
         cube2->draw();
 
@@ -85,7 +108,7 @@ int main() {
         }
     }
 
-    delete shader;
+    delete textureShader;
     delete keyboard;
     delete mouse;
     delete window;
