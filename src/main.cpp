@@ -10,15 +10,14 @@
 #include "input/MouseInput.h"
 #include "input/KeyboardInput.h"
 #include "window/Window.h"
-#include "TEMP.h"
 
-#include "objects/shader/Shader.h"
-#include "objects/shader/TextureShader.h"
-#include "objects/shader/ColorShader.h"
+#include "window/shader/Shader.h"
+#include "window/shader/TextureShader.h"
+#include "window/shader/ColorShader.h"
 
-#include "objects/mesh/Mesh.h"
-#include "objects/mesh/TextureMesh.h"
-#include "objects/mesh/ColorMesh.h"
+#include "window/mesh/Mesh.h"
+#include "window/mesh/TextureMesh.h"
+#include "window/mesh/ColorMesh.h"
 
 int main() {
     // create window
@@ -33,21 +32,18 @@ int main() {
 
     // create and compile shaders
     auto* textureShader = new TextureShader();
-    textureShader->loadShader("TransformUVVertexShader.vertexshader",
-                              "TextureFragmentShader.fragmentshader");
+    textureShader->loadShader("window/shader/TransformUVVertexShader.vertexshader",
+                              "window/shader/TextureFragmentShader.fragmentshader");
 
     // load texture
     textureShader->setAttr(Shader::getTextureFromDDS("uvtemplate.DDS"));
     textureShader->setUniformLocationAttr("textureSampler");
-
-    // load matrix
     textureShader->setUniformLocationMVP("MVP");
 
     auto* colorShader = new ColorShader();
-    colorShader->loadShader("TransformColorVertexShader.vertexshader",
-                            "ColorFragmentShader.fragmentshader");
+    colorShader->loadShader("window/shader/TransformColorVertexShader.vertexshader",
+                            "window/shader/ColorFragmentShader.fragmentshader");
 
-    // load matrix
     textureShader->setUniformLocationMVP("MVP");
 
 
@@ -74,8 +70,6 @@ int main() {
     while (true) {
         window->updateFrameTime();
         window->clear();
-
-
 
         // update input
         mouse->update(window);

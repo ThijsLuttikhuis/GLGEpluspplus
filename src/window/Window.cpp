@@ -58,7 +58,7 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     glDepthFunc(GL_LESS);
 
     // Cull triangles which normal is not towards the camera
-    //TODO:  glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     // Generate vertex array
     glGenVertexArrays(1, &vertexArrayID);

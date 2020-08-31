@@ -6,7 +6,7 @@
 #define GLGEPLUSPLUS_OBJECT_H
 
 
-#include "mesh/Mesh.h"
+#include "../window/mesh/Mesh.h"
 #include "PhysicsBody.h"
 
 class Object {

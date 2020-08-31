@@ -31,11 +31,32 @@ add_definitions(
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wnone")
 
+set(MESH_DIR
+		src/window/mesh/Mesh.cpp
+		src/window/mesh/Mesh.h
+		src/window/mesh/ColorMesh.cpp
+		src/window/mesh/ColorMesh.h
+		src/window/mesh/TextureMesh.cpp
+		src/window/mesh/TextureMesh.h
+		)
+
+set(SHADER_DIR
+		src/window/shader/Shader.cpp
+		src/window/shader/Shader.h
+		src/window/shader/TextureShader.cpp
+		src/window/shader/TextureShader.h
+		src/window/shader/ColorShader.cpp
+		src/window/shader/ColorShader.h
+		)
+
 set(WINDOW_DIR
 		src/window/Window.cpp
 		src/window/Window.h
 		src/window/Camera.cpp
 		src/window/Camera.h
+
+		${MESH_DIR}
+		${SHADER_DIR}
 		)
 
 set(INPUT_DIR
@@ -46,21 +67,22 @@ set(INPUT_DIR
 		)
 
 set(OBJECTS_DIR
-		src/objects/mesh/Mesh.cpp
-		src/objects/mesh/Mesh.h
-        src/objects/shader/Shader.cpp src/objects/shader/Shader.h src/objects/Object.cpp src/objects/Object.h src/objects/PhysicsBody.cpp src/objects/PhysicsBody.h src/objects/mesh/ColorMesh.cpp src/objects/mesh/ColorMesh.h src/objects/mesh/TextureMesh.cpp src/objects/mesh/TextureMesh.h src/objects/shader/TextureShader.cpp src/objects/shader/TextureShader.h src/objects/shader/ColorShader.cpp src/objects/shader/ColorShader.h)
+
+		src/objects/Object.cpp
+		src/objects/Object.h
+		src/objects/PhysicsBody.cpp
+		src/objects/PhysicsBody.h
+		)
 
 # make executable
 add_executable(GLGEplusplus
 		src/main.cpp
-
 		${WINDOW_DIR}
 		${OBJECTS_DIR}
 		${INPUT_DIR}
 
 		src/TEMP.cpp
 		src/TEMP.h
-
 		)
 
 target_link_libraries(GLGEplusplus

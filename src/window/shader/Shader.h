@@ -5,12 +5,10 @@
 #ifndef GLGEPLUSPLUS_SHADER_H
 #define GLGEPLUSPLUS_SHADER_H
 
-
 #include <GL/glew.h>
 #include <string>
 #include <map>
-#include "../../window/Window.h"
-
+#include "../Window.h"
 
 class Shader {
 protected:
@@ -27,8 +25,8 @@ protected:
     static void linkProgram(const uint &pID, const uint &vsID, const uint &fsID, int &result, int &logLength);
     static void checkLog(const int &shaderID, int &logLength);
 public:
-    Shader() = default;
-    ~Shader();
+    Shader() : shaderID(), fragmentShaderID(), programID(), matrixID(), attrID() {};
+    virtual ~Shader();
 
     bool loadShader(const std::string &vertexShader, const std::string &fragmentShader);
 
