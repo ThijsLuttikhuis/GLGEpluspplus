@@ -47,13 +47,16 @@ public:
 
     void draw();
 
-    static MeshData* CreateCuboid(float length, float width, float height,
+    static MeshData* CreateCuboid(float length, float height, float width,
                                     float xCenter, float yCenter, float zCenter,
                                     float horizontalAngle, float verticalAngle);
 
     static MeshData* CreateSphere(float radius,
                                     float xCenter, float yCenter, float zCenter,
                                     float horizontalAngle, float verticalAngle, int n = 100);
+
+    static MeshData* CreatePlane(float length, float width,
+                                    float xCenter, float yCenter, float zCenter, float squareSize = 0.02f);
 };
 
 

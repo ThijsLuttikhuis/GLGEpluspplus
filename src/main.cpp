@@ -46,22 +46,26 @@ int main() {
 
     textureShader->setUniformLocationMVP("MVP");
 
+    // create floor
+    auto* floorBuffer = Mesh::CreatePlane(20.0f, 20.0f, 0.0f, 0.0f, 0.0f);
+    Mesh* floor = new ColorMesh(0,1);
+    floor->setBuffer(floorBuffer);
 
     // create sphere
-    auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 2.0f, 0.0f, 0.0f, 0.0f);
+    auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);
     Mesh* sphere = new ColorMesh(0, 1);
     sphere->setBuffer(sphereBuffer);
 
     // create cube
-    auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.0f, 1.2f,
-                                                                0.0f, 0.0f, 0.0f,
+    auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
+                                                                0.0f, 0.9f, 0.0f,
                                                                 0.0f, 0.0f);
     Mesh* cube = new TextureMesh(0, 1);
     cube->setBuffer(cubeBuffer);
 
-    // create second
-    auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.0f, 1.2f,
-                                                                 4.0f, 2.0f, 0.0f,
+    // create second cube
+    auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.2f, 1.2f,
+                                                                 4.0f, 0.9f, 0.0f,
                                                                  0.0f, 0.0f);
     Mesh* cube2 = new TextureMesh(0, 1);
     cube2->setBuffer(cubeBuffer2);
@@ -83,6 +87,7 @@ int main() {
         colorShader->update(window);
         // draw sphere
         sphere->draw();
+        floor->draw();
 
         // use texture shader
         textureShader->useShader();

@@ -42,7 +42,7 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     }
 
     // Initialize Camera
-    glm::vec3 position = glm::vec3( 0, 0, 5 );
+    glm::vec3 position = glm::vec3( 0, 1.75, 5 );
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
     float fieldOfView = 90.0f;

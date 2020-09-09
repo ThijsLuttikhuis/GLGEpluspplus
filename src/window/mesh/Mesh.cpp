@@ -9,6 +9,7 @@
 #include "TextureMesh.h"
 #include "ColorMesh.h"
 #include <random>
+#include <GLFW/glfw3.h>
 
 
 Mesh::Mesh(uint vertexLocation_, uint attrLocation_) : vertexLocation(vertexLocation_), attrLocation(attrLocation_) {
@@ -37,7 +38,7 @@ void Mesh::draw() {
     disableAttributeBuffer();
 }
 
-MeshData* Mesh::CreateCuboid(float length, float width, float height,
+MeshData* Mesh::CreateCuboid(float length, float height, float width,
                                           float xCenter, float yCenter, float zCenter,
                                           float horizontalAngle, float verticalAngle) {
     MeshData* mesh = new TextureMeshData();
@@ -47,10 +48,10 @@ MeshData* Mesh::CreateCuboid(float length, float width, float height,
     for (int i = 0; i < 8; i++) {
         float x1 = -length/2.0f + xCenter;
         float x2 = length/2.0f + xCenter;
-        float z1 = -width/2.0f + yCenter;
-        float z2 = width/2.0f + yCenter;
-        float y1 = -height/2.0f + zCenter;
-        float y2 = height/2.0f + zCenter;
+        float y1 = -height/2.0f + yCenter;
+        float y2 = height/2.0f + yCenter;
+        float z1 = -width/2.0f + zCenter;
+        float z2 = width/2.0f + zCenter;
 
         glm::vec3 v = {i & (1 << 0) ? x1 : x2,
                        i & (1 << 1) ? y1 : y2,
@@ -133,13 +134,13 @@ MeshData* Mesh::CreateSphere(float radius, float xCenter, float yCenter, float z
     }
 
     //random numbers
-    std::mt19937 generator(1);
+    std::mt19937 generator(glfwGetTime());
     std::uniform_real_distribution<float> distribution(0.0, 1.0);
 
     for (uint i = 0; i < (uint)vertices.size() - phiVertices - 1; i++) {
         uint j = i + 1;
-        uint k = i + phiVertices;
-        uint l = i + phiVertices - 1;
+        uint k = i + phiVertices + 1;
+        uint l = i + phiVertices;
 
         std::vector<glm::vec3> triangle = {vertices[i], vertices[j], vertices[k],
                                            vertices[i], vertices[k], vertices[l]};
@@ -151,11 +152,51 @@ MeshData* Mesh::CreateSphere(float radius, float xCenter, float yCenter, float z
         }
     }
 
+    return mesh;
 
-    for (uint i = 0; i < (uint) vertices.size(); i++) {
+}
 
+MeshData* Mesh::CreatePlane(float length, float width, float xCenter, float yCenter, float zCenter, float squareSize) {
+
+    MeshData* mesh = new ColorMeshData();
+
+    auto xVertices = static_cast<int>(length / squareSize);
+    auto zVertices = static_cast<int>(width / squareSize);
+    float xStart = xCenter - length/2.0f;
+    float zStart = zCenter - width/2.0f;
+
+    std::vector<glm::vec3> vertices = {{}};
+    for (int i = 0; i < xVertices; i++) {
+        for (int j = 0; j < zVertices; j++) {
+
+            glm::vec3 vertex = {xStart + (float) i * squareSize,
+                                yCenter,
+                                zStart + (float) j * squareSize};
+            vertices.push_back(vertex);
+
+            if (i > 0 && j > 1) {
+                // create triangles
+                auto indexL = [zVertices, i, j](int iRel, int jRel) {
+                    return (i+iRel) * zVertices + (j+jRel);
+                };
+                int iRel[6] = {-1,-1,0,-1,0, 0};
+                int jRel[6] = {-1, 0,0,-1,0,-1};
+
+                for (uint r = 0; r < 6; r++) {
+                    mesh->vertices.push_back(vertices[indexL(iRel[r], jRel[r])]);
+                }
+
+                // create color
+                static float color = 0.0f;
+                for (uint r = 0; r < 18; r++) {
+                    mesh->colorData.push_back(color);
+                    color = 1.0f - color;
+
+                }
+                //color += 1.0f / (float)(xVertices*zVertices);
+            }
+        }
     }
 
     return mesh;
-
 }

@@ -11,8 +11,7 @@
 
 class Camera {
 private:
-// Initial position : on +Z
-    glm::vec3 position = glm::vec3( 0, 0, 5 );
+    glm::vec3 position;
     float horizontalAngle;
     float verticalAngle;
     float fieldOfView;
