@@ -8,15 +8,26 @@
 
 #include "../window/mesh/Mesh.h"
 #include "PhysicsBody.h"
+#include "../window/shader/Shader.h"
 
 class Object {
 private:
+    Window* handle;
+
     Mesh* mesh;
+    Shader* shader;
     PhysicsBody* body;
+
 public:
 
-    Object(Mesh* mesh, PhysicsBody* physicsBody);
+    Object(Window* window, Mesh* mesh, Shader* shader, PhysicsBody* physicsBody)
+            : handle(window), mesh(mesh), shader(shader), body(physicsBody) {};
 
+    // non-physical object
+    Object(Window* window, Mesh* mesh, Shader* shader)
+            : handle(window), mesh(mesh), shader(shader), body(nullptr) {};
+
+    void draw();
 
 };
 

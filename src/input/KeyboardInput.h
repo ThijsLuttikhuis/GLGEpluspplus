@@ -6,22 +6,17 @@
 #define GLGEPLUSPLUS_KEYBOARDINPUT_H
 
 #include "../window/Window.h"
+#include "Input.h"
 
-#define GLGE_STICKY_KEYS GLFW_STICKY_KEYS
-
-
-class KeyboardInput {
+class KeyboardInput : public Input {
 private:
-    int mode;
     float moveSpeed = 5.0f; // 3 units / second
-
 public:
+    explicit KeyboardInput(Window* handle);
 
-    KeyboardInput(Window* handle, int mode_);
+    void update() override;
 
-    void update(Window* handle);
-
-    bool getExit(Window* handle);
+    static bool getExit(Window* handle);
 };
 
 

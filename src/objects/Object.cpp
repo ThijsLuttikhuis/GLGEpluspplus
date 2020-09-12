@@ -3,3 +3,9 @@
 //
 
 #include "Object.h"
+
+void Object::draw() {
+    shader->useShader();
+    shader->update(handle);
+    mesh->draw();
+}

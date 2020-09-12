@@ -4,36 +4,21 @@
 
 #include "MouseInput.h"
 #include <iostream>
-#include <GL/glew.h>
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "../window/Window.h"
 
-MouseInput::MouseInput(Window* handle, int mode_) : mode(mode_) {
+MouseInput::MouseInput(Window* handle_) : Input(handle_) {
     auto* window = handle->getWindow();
-    switch (mode) {
-        case 0x0001:
-            // Set the mouse at the center of the screen
-            glfwPollEvents();
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            break;
 
-        case 0x0002:
-            // Set the mouse at the center of the screen
-            glfwPollEvents();
-            break;
-        case 0x0004:
-        case 0x0008:
-        default:
-            glfwPollEvents();
-            break;
-    }
+    glfwPollEvents();
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     handle->setCursorPosToCenter();
 }
 
-void MouseInput::update(Window* handle) {
-
+void MouseInput::update() {
 
     auto* camera = handle->getCamera();
     auto hAngle = camera->getHorizontalAngle();

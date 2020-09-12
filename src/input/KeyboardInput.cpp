@@ -9,32 +9,20 @@
 #include <glm/glm.hpp>
 
 
-KeyboardInput::KeyboardInput(Window* handle, int mode_) : mode(mode_) {
+KeyboardInput::KeyboardInput(Window* handle_) : Input(handle_) {
     // Capture keys
     auto* window = handle->getWindow();
     auto width = static_cast<double>(handle->getWidth());
     auto height = static_cast<double>(handle->getHeight());
 
-    switch (mode) {
-        case 0x0001:
             // Set the mouse at the center of the screen
             glfwPollEvents();
             glfwSetCursorPos(window, width / 2, height / 2);
             glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-            break;
 
-        case 0x0002:
-        case 0x0004:
-        case 0x0008:
-        default:
-            glfwPollEvents();
-            glfwSetCursorPos(window, width / 2, height / 2);
-            glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-            break;
-    }
 }
 
-void KeyboardInput::update(Window* handle) {
+void KeyboardInput::update() {
 
     auto dt = static_cast<float>(handle->getLastFrameTime());
 
@@ -79,8 +67,8 @@ void KeyboardInput::update(Window* handle) {
     camera->setPosition(pos);
 }
 
-bool KeyboardInput::getExit(Window* handle) {
-    auto* window = handle->getWindow();
+bool KeyboardInput::getExit(Window* handle_) {
+    auto* window = handle_->getWindow();
 
     return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
             glfwWindowShouldClose(window) != 0;

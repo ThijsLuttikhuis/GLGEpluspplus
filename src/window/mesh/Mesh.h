@@ -56,7 +56,7 @@ public:
                                     float horizontalAngle, float verticalAngle, int n = 100);
 
     static MeshData* CreatePlane(float length, float width,
-                                    float xCenter, float yCenter, float zCenter, float squareSize = 0.02f);
+                                    float xCenter, float yCenter, float zCenter, float squareSize = 0.5f);
 };
 
 

@@ -190,10 +190,8 @@ MeshData* Mesh::CreatePlane(float length, float width, float xCenter, float yCen
                 static float color = 0.0f;
                 for (uint r = 0; r < 18; r++) {
                     mesh->colorData.push_back(color);
-                    color = 1.0f - color;
-
                 }
-                //color += 1.0f / (float)(xVertices*zVertices);
+                color += 1.0f / (float)(xVertices*zVertices);
             }
         }
     }

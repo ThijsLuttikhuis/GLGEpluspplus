@@ -72,7 +72,7 @@ set(OBJECTS_DIR
 		src/objects/Object.h
 		src/objects/PhysicsBody.cpp
 		src/objects/PhysicsBody.h
-		)
+        src/input/Input.cpp src/input/Input.h)
 
 # make executable
 add_executable(GLGEplusplus

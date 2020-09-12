@@ -18,17 +18,23 @@
 #include "window/mesh/Mesh.h"
 #include "window/mesh/TextureMesh.h"
 #include "window/mesh/ColorMesh.h"
+#include "objects/Object.h"
 
 int main() {
     // create window
-    auto* window = new Window(1024, 768, "Window");
+    auto* window = new Window(1000, 700, "Window");
     if (! *window) {
         return 100;
     }
 
+    std::vector<Object*> objects;
+    std::vector<Input*> inputs;
+
     // create inputs
-    auto* mouse = new MouseInput(window, GLGE_MOUSE_CURSOR_FPS);
-    auto* keyboard = new KeyboardInput(window, GLGE_STICKY_KEYS);
+    auto* mouse = new MouseInput(window);
+    auto* keyboard = new KeyboardInput(window);
+    inputs.push_back(mouse);
+    inputs.push_back(keyboard);
 
     // create and compile shaders
     auto* textureShader = new TextureShader();
@@ -50,11 +56,15 @@ int main() {
     auto* floorBuffer = Mesh::CreatePlane(20.0f, 20.0f, 0.0f, 0.0f, 0.0f);
     Mesh* floor = new ColorMesh(0,1);
     floor->setBuffer(floorBuffer);
+    auto* floorObject = new Object(window, floor, colorShader);
+    objects.push_back(floorObject);
 
     // create sphere
     auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);
     Mesh* sphere = new ColorMesh(0, 1);
     sphere->setBuffer(sphereBuffer);
+    auto* sphereObject = new Object(window, sphere, colorShader);
+    objects.push_back(sphereObject);
 
     // create cube
     auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
@@ -62,6 +72,8 @@ int main() {
                                                                 0.0f, 0.0f);
     Mesh* cube = new TextureMesh(0, 1);
     cube->setBuffer(cubeBuffer);
+    auto* cubeObject = new Object(window, cube, textureShader);
+    objects.push_back(cubeObject);
 
     // create second cube
     auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.2f, 1.2f,
@@ -69,32 +81,25 @@ int main() {
                                                                  0.0f, 0.0f);
     Mesh* cube2 = new TextureMesh(0, 1);
     cube2->setBuffer(cubeBuffer2);
-
+    auto* cube2Object = new Object(window, cube2, textureShader);
+    objects.push_back(cube2Object);
 
     while (true) {
         window->updateFrameTime();
         window->clear();
 
         // update input
-        mouse->update(window);
-        keyboard->update(window);
+        for (auto &input : inputs) {
+            input->update();
+        }
 
         // update output
         window->update();
 
-        // use color shader
-        colorShader->useShader();
-        colorShader->update(window);
-        // draw sphere
-        sphere->draw();
-        floor->draw();
-
-        // use texture shader
-        textureShader->useShader();
-        textureShader->update(window);
-        // draw cubes
-        cube->draw();
-        cube2->draw();
+        // draw meshes
+        for (auto &object : objects) {
+            object->draw();
+        }
 
         // swap buffers
         window->swapBuffers();
@@ -102,7 +107,7 @@ int main() {
         glfwPollEvents();
 
         // check for exit button
-        if (keyboard->getExit(window)) {
+        if (KeyboardInput::getExit(window)) {
             break;
         }
     }
