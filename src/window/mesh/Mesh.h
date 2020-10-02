@@ -5,10 +5,10 @@
 #ifndef GLGEPLUSPLUS_MESH_H
 #define GLGEPLUSPLUS_MESH_H
 
-#include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 #include <vector>
+#include "../shader/Shader.h"
 
 class MeshData {
 public:
@@ -21,11 +21,22 @@ public:
     std::vector<float> colorData;
     std::vector<uint> indices;
 
+    void translateMesh(float dX, float dY, float dZ) {
+        for (auto &vertex : vertices) {
+            vertex.x += dX;
+            vertex.y += dY;
+            vertex.z += dZ;
+        }
+    }
     virtual uint getSize() const = 0;
 };
 
 
 class Mesh {
+private:
+    Window* handle;
+    Shader* shader;
+
 protected:
     MeshData* mesh;
 
@@ -35,7 +46,7 @@ protected:
     uint vertexLocation;
     uint attrLocation;
 public:
-    Mesh(uint vertexLocation_, uint attrLocation_);
+    Mesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_);
     ~Mesh();
 
     virtual void setBuffer(MeshData* mesh_) = 0;

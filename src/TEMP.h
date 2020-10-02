@@ -6,7 +6,6 @@
 #define GLGEPLUSPLUS_TEMP_H
 
 
-#include <GL/glew.h>
 #include <fstream>
 #include <sstream>
 #include <vector>

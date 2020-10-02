@@ -72,7 +72,13 @@ set(OBJECTS_DIR
 		src/objects/Object.h
 		src/objects/PhysicsBody.cpp
 		src/objects/PhysicsBody.h
-        src/input/Input.cpp src/input/Input.h)
+        src/input/Input.cpp
+		src/input/Input.h
+		src/objects/Interactions/Interaction.cpp
+		src/objects/Interactions/Interaction.h
+		src/objects/Interactions/ConstantForce.cpp
+		src/objects/Interactions/ConstantForce.h
+		)
 
 # make executable
 add_executable(GLGEplusplus
@@ -81,7 +87,7 @@ add_executable(GLGEplusplus
 		${OBJECTS_DIR}
 		${INPUT_DIR}
 
-		src/TEMP.cpp
+
 		src/TEMP.h
 		)
 

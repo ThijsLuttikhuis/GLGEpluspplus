@@ -9,7 +9,7 @@
 #include <glm/glm.hpp>
 #include "../window/Window.h"
 
-MouseInput::MouseInput(Window* handle_) : Input(handle_) {
+MouseInput::MouseInput(Window* handle_, PhysicsBody* body) : Input(handle_, {body}) {
     auto* window = handle->getWindow();
 
     glfwPollEvents();

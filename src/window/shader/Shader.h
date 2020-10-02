@@ -5,7 +5,6 @@
 #ifndef GLGEPLUSPLUS_SHADER_H
 #define GLGEPLUSPLUS_SHADER_H
 
-#include <GL/glew.h>
 #include <string>
 #include <map>
 #include "../Window.h"

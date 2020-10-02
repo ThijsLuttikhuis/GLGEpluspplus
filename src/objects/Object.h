@@ -16,19 +16,17 @@ private:
 
     Mesh* mesh;
     Shader* shader;
-    PhysicsBody* body;
 
 public:
 
     Object(Window* window, Mesh* mesh, Shader* shader, PhysicsBody* physicsBody)
-            : handle(window), mesh(mesh), shader(shader), body(physicsBody) {};
+            : handle(window), mesh(mesh), shader(shader) {};
 
     // non-physical object
     Object(Window* window, Mesh* mesh, Shader* shader)
-            : handle(window), mesh(mesh), shader(shader), body(nullptr) {};
+            : handle(window), mesh(mesh), shader(shader) {};
 
     void draw();
-
 };
 
 

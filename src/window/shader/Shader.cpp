@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <GL/glew.h>
 #include "Shader.h"
 #include "../../TEMP.h"
 

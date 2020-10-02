@@ -1,15 +1,14 @@
 //
 // Created by thijs on 11-08-20.
 //
+#include <GL/glew.h>
 
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+
+#include "window/Window.h"
 
 #include "input/MouseInput.h"
 #include "input/KeyboardInput.h"
-#include "window/Window.h"
 
 #include "window/shader/Shader.h"
 #include "window/shader/TextureShader.h"
@@ -18,7 +17,9 @@
 #include "window/mesh/Mesh.h"
 #include "window/mesh/TextureMesh.h"
 #include "window/mesh/ColorMesh.h"
-#include "objects/Object.h"
+
+#include "objects/Interactions/Interaction.h"
+#include "objects/Interactions/ConstantForce.h"
 
 int main() {
     // create window
@@ -27,14 +28,24 @@ int main() {
         return 100;
     }
 
-    std::vector<Object*> objects;
-    std::vector<Input*> inputs;
+    // initialize vectors
+    std::vector<Mesh*> meshes;
+    std::vector<Interaction*> interactions;
+    std::vector<PhysicsBody*> bodies;
 
-    // create inputs
-    auto* mouse = new MouseInput(window);
-    auto* keyboard = new KeyboardInput(window);
-    inputs.push_back(mouse);
-    inputs.push_back(keyboard);
+    // create player
+    auto* player = new PhysicsBody(nullptr, {0, 10, 0}, {0, 0, 0});
+    bodies.push_back(player);
+
+    // create manual inputs
+    auto* mouse = new MouseInput(window, player);
+    auto* keyboard = new KeyboardInput(window, player);
+    interactions.push_back(mouse);
+    interactions.push_back(keyboard);
+
+    // create force interactions
+    auto* gravity = new ConstantForce({player}, glm::vec3{0,-1,0});
+    interactions.push_back(gravity);
 
     // create and compile shaders
     auto* textureShader = new TextureShader();
@@ -53,52 +64,55 @@ int main() {
     textureShader->setUniformLocationMVP("MVP");
 
     // create floor
-    auto* floorBuffer = Mesh::CreatePlane(20.0f, 20.0f, 0.0f, 0.0f, 0.0f);
-    Mesh* floor = new ColorMesh(0,1);
+    auto* floorBuffer = Mesh::CreatePlane(100.0f, 100.0f, 0.0f, 0.0f, 0.0f);
+    Mesh* floor = new ColorMesh(window, colorShader, 0,1);
     floor->setBuffer(floorBuffer);
-    auto* floorObject = new Object(window, floor, colorShader);
-    objects.push_back(floorObject);
+    meshes.push_back(floor);
 
     // create sphere
     auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);
-    Mesh* sphere = new ColorMesh(0, 1);
+    Mesh* sphere = new ColorMesh(window, colorShader, 0, 1);
     sphere->setBuffer(sphereBuffer);
-    auto* sphereObject = new Object(window, sphere, colorShader);
-    objects.push_back(sphereObject);
+    meshes.push_back(sphere);
 
     // create cube
     auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
                                                                 0.0f, 0.9f, 0.0f,
                                                                 0.0f, 0.0f);
-    Mesh* cube = new TextureMesh(0, 1);
+    Mesh* cube = new TextureMesh(window, textureShader, 0, 1);
     cube->setBuffer(cubeBuffer);
-    auto* cubeObject = new Object(window, cube, textureShader);
-    objects.push_back(cubeObject);
+    meshes.push_back(cube);
 
     // create second cube
     auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.2f, 1.2f,
                                                                  4.0f, 0.9f, 0.0f,
                                                                  0.0f, 0.0f);
-    Mesh* cube2 = new TextureMesh(0, 1);
+    Mesh* cube2 = new TextureMesh(window, textureShader, 0, 1);
     cube2->setBuffer(cubeBuffer2);
-    auto* cube2Object = new Object(window, cube2, textureShader);
-    objects.push_back(cube2Object);
+    meshes.push_back(cube2);
 
     while (true) {
         window->updateFrameTime();
         window->clear();
 
-        // update input
-        for (auto &input : inputs) {
-            input->update();
+        float dt = window->getLastFrameTime();
+
+        // update inputs, physics and interactions
+        for (auto &interaction : interactions) {
+            interaction->update();
+        }
+
+        // update bodies
+        for (auto &body : bodies) {
+            body->update(dt);
         }
 
         // update output
         window->update();
 
         // draw meshes
-        for (auto &object : objects) {
-            object->draw();
+        for (auto &mesh : meshes) {
+            mesh->draw();
         }
 
         // swap buffers

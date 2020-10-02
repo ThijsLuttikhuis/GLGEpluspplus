@@ -2,6 +2,7 @@
 // Created by thijs on 31-08-20.
 //
 
+#include <GL/glew.h>
 #include "TextureShader.h"
 
 void TextureShader::update(Window* handle) {

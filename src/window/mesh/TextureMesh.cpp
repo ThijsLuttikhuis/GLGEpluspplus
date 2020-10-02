@@ -2,6 +2,7 @@
 // Created by thijs on 31-08-20.
 //
 
+#include <GL/glew.h>
 #include "TextureMesh.h"
 
 void TextureMesh::setBuffer(MeshData* mesh_) {

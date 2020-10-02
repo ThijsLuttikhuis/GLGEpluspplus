@@ -6,16 +6,17 @@
 #define GLGEPLUSPLUS_INPUT_H
 
 
-#include "../window/Window.h"
+#include <utility>
 
-class Input {
+#include "../window/Window.h"
+#include "../objects/Interactions/Interaction.h"
+
+class Input : public Interaction {
 protected:
     Window* handle;
 
 public:
-    explicit Input(Window* window) : handle(window) {};
-    virtual ~Input() = default;
-    virtual void update() = 0;
+    explicit Input(Window* window, std::vector<PhysicsBody*> bodies) : Interaction(std::move(bodies)), handle(window) {};
 };
 
 

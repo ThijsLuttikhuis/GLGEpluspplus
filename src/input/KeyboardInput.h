@@ -12,7 +12,7 @@ class KeyboardInput : public Input {
 private:
     float moveSpeed = 5.0f; // 3 units / second
 public:
-    explicit KeyboardInput(Window* handle);
+    KeyboardInput(Window* handle, PhysicsBody* body);
 
     void update() override;
 

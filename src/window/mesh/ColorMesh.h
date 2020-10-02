@@ -6,7 +6,7 @@
 #define GLGEPLUSPLUS_COLORMESH_H
 
 #include "Mesh.h"
-
+#include "../shader/Shader.h"
 
 
 class ColorMeshData : public MeshData {
@@ -22,9 +22,11 @@ public:
 
 class ColorMesh : public Mesh {
 private:
-
+    Window* handle;
+    Shader* shader;
 public:
-    ColorMesh(uint vertexLocation_, uint attrLocation_) : Mesh(vertexLocation_, attrLocation_) {};
+    ColorMesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_)
+        : Mesh(window, shader_, vertexLocation_, attrLocation_) {};
 
     void setBuffer(MeshData* mesh_) override;
     void enableAttributeBuffer() override;

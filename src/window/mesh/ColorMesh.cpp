@@ -2,6 +2,7 @@
 // Created by thijs on 31-08-20.
 //
 
+#include <GL/glew.h>
 #include "ColorMesh.h"
 
 void ColorMesh::setBuffer(MeshData* mesh_) {

@@ -2,17 +2,19 @@
 // Created by thijs on 23-08-20.
 //
 
+#include <GL/glew.h>
 #include <iostream>
 #include <glm/vec4.hpp>
 #include <cmath>
 #include "Mesh.h"
 #include "TextureMesh.h"
 #include "ColorMesh.h"
-#include <random>
 #include <GLFW/glfw3.h>
+#include <random>
 
 
-Mesh::Mesh(uint vertexLocation_, uint attrLocation_) : vertexLocation(vertexLocation_), attrLocation(attrLocation_) {
+Mesh::Mesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_) :
+    handle(window), shader(shader_), vertexLocation(vertexLocation_), attrLocation(attrLocation_) {
     mesh = nullptr;
 
     vertexBuffer = {};
@@ -32,6 +34,9 @@ int Mesh::triangleSize() const {
 }
 
 void Mesh::draw() {
+    shader->useShader();
+    shader->update(handle);
+
     // draw triangles
     enableAttributeBuffer();
     glDrawArrays(GL_TRIANGLES, 0, triangleSize());
@@ -172,8 +177,11 @@ MeshData* Mesh::CreatePlane(float length, float width, float xCenter, float yCen
             glm::vec3 vertex = {xStart + (float) i * squareSize,
                                 yCenter,
                                 zStart + (float) j * squareSize};
-            vertices.push_back(vertex);
 
+            vertex.y = 0.3*std::sin(vertex.x) + 0.1*std::cos(vertex.z);
+
+
+            vertices.push_back(vertex);
             if (i > 0 && j > 1) {
                 // create triangles
                 auto indexL = [zVertices, i, j](int iRel, int jRel) {
