@@ -10,7 +10,7 @@
 
 class KeyboardInput : public Input {
 private:
-    float moveSpeed = 5.0f; // 3 units / second
+    float moveSpeed = 12.0f;
 public:
     KeyboardInput(Window* handle, PhysicsBody* body);
 

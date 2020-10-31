@@ -21,9 +21,7 @@ public:
 };
 
 class ColorMesh : public Mesh {
-private:
-    Window* handle;
-    Shader* shader;
+
 public:
     ColorMesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_)
         : Mesh(window, shader_, vertexLocation_, attrLocation_) {};

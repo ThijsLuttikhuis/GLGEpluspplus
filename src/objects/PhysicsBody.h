@@ -18,10 +18,10 @@ private:
 
 public:
     void setVel(const glm::vec3 &vel);
-    void setPos(const glm::vec3 &pos);
+    virtual void setPos(const glm::vec3 &pos);
     void setForce(const glm::vec3 &force);
 
-    const glm::vec3 &getPos() const;
+    virtual const glm::vec3 &getPos() const;
     const glm::vec3 &getVel() const;
     const glm::vec3 &getForce() const;
 

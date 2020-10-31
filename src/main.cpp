@@ -20,6 +20,9 @@
 
 #include "objects/Interactions/Interaction.h"
 #include "objects/Interactions/ConstantForce.h"
+#include "window/mesh/HeightMapMesh.h"
+#include "objects/utils/HeightMap.h"
+#include "objects/Interactions/FloorInteraction.h"
 
 int main() {
     // create window
@@ -44,7 +47,7 @@ int main() {
     interactions.push_back(keyboard);
 
     // create force interactions
-    auto* gravity = new ConstantForce({player}, glm::vec3{0,-1,0});
+    auto* gravity = new ConstantForce({player}, glm::vec3{0,-8.0f,0});
     interactions.push_back(gravity);
 
     // create and compile shaders
@@ -64,10 +67,14 @@ int main() {
     textureShader->setUniformLocationMVP("MVP");
 
     // create floor
-    auto* floorBuffer = Mesh::CreatePlane(100.0f, 100.0f, 0.0f, 0.0f, 0.0f);
-    Mesh* floor = new ColorMesh(window, colorShader, 0,1);
+    auto* heightMap = new HeightMap(200.0f, 100.0f, glm::vec3{-50.0f}, 1.0f);
+    Mesh* floor = new HeightMapMesh(window, colorShader, 0,1);
+    auto* floorBuffer = heightMap->getMeshData();
     floor->setBuffer(floorBuffer);
     meshes.push_back(floor);
+
+    auto* floorInteraction = new FloorInteraction({player}, heightMap, 1.8f);
+    interactions.push_back(floorInteraction);
 
     // create sphere
     auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);

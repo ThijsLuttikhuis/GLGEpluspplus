@@ -28,8 +28,9 @@ add_definitions(
 )
 
 # set flags
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wnone")
+set(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wnone")
 
 set(MESH_DIR
 		src/window/mesh/Mesh.cpp
@@ -68,8 +69,6 @@ set(INPUT_DIR
 
 set(OBJECTS_DIR
 
-		src/objects/Object.cpp
-		src/objects/Object.h
 		src/objects/PhysicsBody.cpp
 		src/objects/PhysicsBody.h
         src/input/Input.cpp
@@ -78,7 +77,8 @@ set(OBJECTS_DIR
 		src/objects/Interactions/Interaction.h
 		src/objects/Interactions/ConstantForce.cpp
 		src/objects/Interactions/ConstantForce.h
-		)
+        src/window/mesh/HeightMapMesh.cpp
+		src/window/mesh/HeightMapMesh.h src/objects/HeightMapBody.cpp src/objects/HeightMapBody.h src/objects/utils/HeightMap.cpp src/objects/utils/HeightMap.h src/objects/Interactions/FloorInteraction.cpp src/objects/Interactions/FloorInteraction.h)
 
 # make executable
 add_executable(GLGEplusplus

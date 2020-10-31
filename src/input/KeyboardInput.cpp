@@ -53,12 +53,9 @@ void KeyboardInput::update() {
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         dVel -= glm::normalize(glm::cross(right, forwards));
     }
-//TODO::::
+
     if (glm::length(dVel) > 0.01f) {
         dVel = glm::normalize(dVel) * moveSpeed;
-
-        glm::length(vel + dVel) > moveSpeed ? dVel = glm::normalize(vel+dVel) * moveSpeed
-                                            : dVel = vel + dVel;
     }
 
     camera->setPosition(bodies[0]->getPos());

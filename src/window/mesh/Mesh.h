@@ -33,11 +33,10 @@ public:
 
 
 class Mesh {
-private:
+protected:
     Window* handle;
     Shader* shader;
 
-protected:
     MeshData* mesh;
 
     uint vertexBuffer;

@@ -42,7 +42,7 @@ public:
 
     int getHeight() const;
 
-    double getLastFrameTime() const;
+    float getLastFrameTime() const;
 
     void clear(int flags);
     void clear();

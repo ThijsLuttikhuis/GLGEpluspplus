@@ -98,7 +98,7 @@ int Window::getHeight() const {
     return height;
 }
 
-double Window::getLastFrameTime() const {
+float Window::getLastFrameTime() const {
     return lastFrameTime;
 }
 
