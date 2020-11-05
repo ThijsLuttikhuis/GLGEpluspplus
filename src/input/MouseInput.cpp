@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "../window/Window.h"
+#include "../window/Camera.h"
 
 MouseInput::MouseInput(Window* handle_, PhysicsBody* body) : Input(handle_, {body}) {
     auto* window = handle->getWindow();
@@ -20,9 +21,9 @@ MouseInput::MouseInput(Window* handle_, PhysicsBody* body) : Input(handle_, {bod
 
 void MouseInput::update() {
 
-    auto* camera = handle->getCamera();
-    auto hAngle = camera->getHorizontalAngle();
-    auto vAngle = camera->getVerticalAngle();
+    auto* body = bodies[0];
+    auto hAngle = body->getHorizontalAngle();
+    auto vAngle = body->getVerticalAngle();
 
     auto relativeMousePos = handle->getCursorPosRelativeToCenter();
     handle->setCursorPosToCenter();
@@ -39,7 +40,7 @@ void MouseInput::update() {
              vAngle > maxVerticalAngle ? maxVerticalAngle :
              vAngle;
 
-    camera->setHorizontalAngle(hAngle);
-    camera->setVerticalAngle(vAngle);
+    body->setHorizontalAngle(hAngle);
+    body->setVerticalAngle(vAngle);
 }
 

@@ -7,26 +7,26 @@
 
 
 #include "../window/mesh/Mesh.h"
+#include "../window/PosAngle.h"
 
-class PhysicsBody {
+class PhysicsBody : public PosAngle {
 private:
     Mesh* mesh;
 
-    glm::vec3 pos;
-    glm::vec3 vel;
-    glm::vec3 force;
+    glm::vec3 velocity = glm::vec3(0);
+    glm::vec3 force = glm::vec3(0);
 
 public:
-    void setVel(const glm::vec3 &vel);
-    virtual void setPos(const glm::vec3 &pos);
+    void setVelocity(const glm::vec3 &vel);
     void setForce(const glm::vec3 &force);
 
-    virtual const glm::vec3 &getPos() const;
-    const glm::vec3 &getVel() const;
+    const glm::vec3 &getVelocity() const;
     const glm::vec3 &getForce() const;
 
-    explicit PhysicsBody(Mesh* mesh_) : mesh(mesh_), pos(0), vel(0) {}
-    PhysicsBody(Mesh* mesh_, glm::vec3 pos, glm::vec3 vel) : mesh(mesh_), pos(pos), vel(vel) {}
+    explicit PhysicsBody(Mesh* mesh_) : PosAngle(), mesh(mesh_) {}
+    PhysicsBody(Mesh* mesh_, glm::vec3 position, glm::vec3 velocity, float horizontalAngle = 0, float verticalAngle = 0)
+                : PosAngle(position, horizontalAngle, verticalAngle), mesh(mesh_), velocity(velocity) {}
+    virtual ~PhysicsBody() = default;
 
     void update(float dt);
 };

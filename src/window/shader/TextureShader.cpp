@@ -4,6 +4,7 @@
 
 #include <GL/glew.h>
 #include "TextureShader.h"
+#include "../Camera.h"
 
 void TextureShader::update(Window* handle) {
     // update MVP

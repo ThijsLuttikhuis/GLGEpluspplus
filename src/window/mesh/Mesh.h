@@ -46,7 +46,7 @@ protected:
     uint attrLocation;
 public:
     Mesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_);
-    ~Mesh();
+    virtual ~Mesh();
 
     virtual void setBuffer(MeshData* mesh_) = 0;
 

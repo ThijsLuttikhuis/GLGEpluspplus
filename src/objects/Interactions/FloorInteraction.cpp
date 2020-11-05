@@ -6,16 +6,34 @@
 
 void FloorInteraction::update() {
     for (auto &body : bodies) {
-        auto pos = body->getPos();
+        auto pos = body->getPosition();
+        if (!floor->isPositionAbove(pos)) {
+            continue;
+        }
+
         pos.y -= heightAboveFloor;
         float floorHeight = floor->getHeight(pos);
         if (pos.y < floorHeight) {
-            pos.y = floorHeight + heightAboveFloor;
-            body->setPos(pos);
+            auto vel = body->getVelocity();
+            if (vel.y < 0.0f) {
+                vel.y = 0.0f;
+                if (vel.length() < staticFrictionThreshold) {
+                    vel.x = 0.0f;
+                    vel.z = 0.0f;
+                }
+                else {
+                    auto force = body->getForce();
+                    force.x -= vel.x * dynamicFriction;
+                    force.z -= vel.z * dynamicFriction;
+                    body->setForce(force);
+                }
+            }
 
-            auto vel = body->getVel();
-            vel.y = 0;
-            body->setVel(vel);
+            body->setVelocity(vel);
+            pos.y = floorHeight + heightAboveFloor - delta;
+            body->setPosition(pos);
+
+
         }
     }
 }

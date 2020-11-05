@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iostream>
 #include <glm/glm.hpp>
-
+#include "../window/Camera.h"
 
 KeyboardInput::KeyboardInput(Window* handle_, PhysicsBody* body) : Input(handle_, {body}) {
     // Capture keys
@@ -23,11 +23,11 @@ void KeyboardInput::update() {
     auto* window = handle->getWindow();
 
     auto* camera = handle->getCamera();
-    auto force = bodies[0]->getForce();  //camera->getPosition();
-    auto vel = bodies[0]->getVel();
-    auto dVel = glm::vec3(0.0f, 0.0f, 0.0f);
     auto forwards = camera->getHorizonForwards();
     auto right = camera->getRight();
+
+    auto force = bodies[0]->getForce();  //camera->getPosition();
+    auto dVel = glm::vec3(0.0f, 0.0f, 0.0f);
 
     // Move forward
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
@@ -58,8 +58,7 @@ void KeyboardInput::update() {
         dVel = glm::normalize(dVel) * moveSpeed;
     }
 
-    camera->setPosition(bodies[0]->getPos());
-    bodies[0]->setForce(dVel);
+    bodies[0]->setForce(dVel + force);
 }
 
 bool KeyboardInput::getExit(Window* handle_) {

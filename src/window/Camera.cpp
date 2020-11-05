@@ -7,59 +7,14 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 
-const glm::vec3 &Camera::getPosition() const {
-    return position;
-}
 
-float Camera::getHorizontalAngle() const {
-    return horizontalAngle;
-}
-
-float Camera::getVerticalAngle() const {
-    return verticalAngle;
-}
 
 float Camera::getFieldOfView() const {
     return fieldOfView;
 }
 
-void Camera::setPosition(const glm::vec3 &position_) {
-    Camera::position = position_;
-}
-
-void Camera::setHorizontalAngle(float horizontalAngle_) {
-    Camera::horizontalAngle = horizontalAngle_;
-}
-
-void Camera::setVerticalAngle(float verticalAngle_) {
-    Camera::verticalAngle = verticalAngle_;
-}
-
 void Camera::setFieldOfView(float fieldOfView_) {
     Camera::fieldOfView = fieldOfView_;
-}
-
-glm::vec3 Camera::getDirection() const {
-    return {std::cos(verticalAngle) * std::sin(horizontalAngle),
-                           std::sin(verticalAngle),
-                           std::cos(verticalAngle) * std::cos(horizontalAngle)};
-}
-
-glm::vec3 Camera::getRight() const {
-    return {sin(horizontalAngle - M_PI_2),
-            0,
-            cos(horizontalAngle - M_PI_2)};
-}
-
-glm::vec3 Camera::getUp() const {
-    return glm::cross(getRight(), getDirection());
-}
-
-glm::vec3 Camera::getHorizonForwards() const {
-    auto dir = getDirection();
-    auto length = glm::length(dir);
-    glm::vec3 forwards = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z))*length;
-    return forwards;
 }
 
 
@@ -93,5 +48,11 @@ void Camera::updateMatrices(float aspectRatio, float near, float far) {
 
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     MVP = projectionMatrix * viewMatrix * ModelMatrix;
+}
+
+void Camera::updatePosition() {
+    setPosition(body->getPosition());
+    setHorizontalAngle(body->getHorizontalAngle());
+    setVerticalAngle(body->getVerticalAngle());
 }
 

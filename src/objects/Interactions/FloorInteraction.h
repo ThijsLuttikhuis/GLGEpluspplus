@@ -14,6 +14,8 @@ private:
     HeightMap* floor;
     float heightAboveFloor;
     float delta = 0.2;
+    float dynamicFriction = 2.0f;
+    float staticFrictionThreshold = 2.5f;
 public:
 
     FloorInteraction(std::vector<PhysicsBody*> physicsbody, HeightMap* floor, float height = 0)

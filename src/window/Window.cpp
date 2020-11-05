@@ -8,8 +8,9 @@
 #include <glm/vec4.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "Camera.h"
 
-Window::Window(int width_, int height_, const std::string &name) : width(width_), height(height_) {
+Window::Window(int width_, int height_,  PhysicsBody* player, const std::string &name) : width(width_), height(height_) {
 
     // initialize GLFW
     if (!glfwInit()) {
@@ -42,11 +43,8 @@ Window::Window(int width_, int height_, const std::string &name) : width(width_)
     }
 
     // Initialize Camera
-    glm::vec3 position = glm::vec3( 0, 1.75, 5 );
-    float horizontalAngle = 0.0f;
-    float verticalAngle = 0.0f;
     float fieldOfView = 90.0f;
-    camera = new Camera(position, horizontalAngle, verticalAngle, fieldOfView);
+    camera = new Camera(player, fieldOfView);
 
     // set dark grey background
     glm::vec4 clearColor = {0.1f, 0.1f, 0.1f, 0.0f};
@@ -124,6 +122,7 @@ void Window::update() {
     auto near = 0.1f;
     auto far = 100.0f;
 
+    camera->updatePosition();
     camera->updateMatrices(aspectRatio, near, far);
 }
 

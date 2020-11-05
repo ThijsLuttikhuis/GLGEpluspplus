@@ -4,6 +4,7 @@
 
 #include <GL/glew.h>
 #include "ColorShader.h"
+#include "../Camera.h"
 
 void ColorShader::update(Window* handle) {
     // update MVP

@@ -5,25 +5,17 @@
 #include "PhysicsBody.h"
 
 void PhysicsBody::update(float dt) {
-    vel = vel + force * dt;
-    pos = pos + vel * dt;
+    velocity = velocity + force * dt;
+    position = position + velocity * dt;
     force = glm::vec3{0};
 }
 
-const glm::vec3 &PhysicsBody::getPos() const {
-    return pos;
+const glm::vec3 &PhysicsBody::getVelocity() const {
+    return velocity;
 }
 
-const glm::vec3 &PhysicsBody::getVel() const {
-    return vel;
-}
-
-void PhysicsBody::setPos(const glm::vec3 &pos_) {
-    pos = pos_;
-}
-
-void PhysicsBody::setVel(const glm::vec3 &vel_) {
-    vel = vel_;
+void PhysicsBody::setVelocity(const glm::vec3 &velocity_) {
+    velocity = velocity_;
 }
 
 void PhysicsBody::setForce(const glm::vec3 &force_) {

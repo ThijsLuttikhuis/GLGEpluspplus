@@ -11,7 +11,7 @@
 #include "../../window/mesh/HeightMapMesh.h"
 
 class HeightMap {
-private:
+protected:
     std::vector<std::vector<float>> height;
     glm::vec3 corner;
     float squareSize;
@@ -19,19 +19,20 @@ private:
     MeshData* meshData;
 
 public:
-    float getHeight(glm::vec3 pos) const;
+    float getXLength() const;
+    float getZLength() const;
+
+    bool isPositionAbove(glm::vec3 pos) const;
+    virtual float getHeight(glm::vec3 pos) const = 0;
+    float getHeightFromMesh(glm::vec3 pos) const;
+
     MeshData* getMeshData() const;
 
     MeshData* createHeightMapMeshData(float length, float width, glm::vec3 lowerCorner, float sqSize);
     void updateMesh(HeightMapMesh* heightMapMesh);
 
-    HeightMap(float length, float width, glm::vec3 lowerCorner, float squareSize)
-            : corner(lowerCorner), squareSize(squareSize) {
-
-        auto lengthSize = static_cast<int>(length/squareSize);
-        auto widthSize = static_cast<int>(width/squareSize);
-        height = std::vector<std::vector<float>>(lengthSize, std::vector<float>(widthSize, 0.0f));
-        meshData = createHeightMapMeshData(length, width, lowerCorner, squareSize);
+    HeightMap(glm::vec3 lowerCorner, float squareSize)
+            : corner(lowerCorner), squareSize(squareSize), meshData(nullptr) {
     }
 };
 

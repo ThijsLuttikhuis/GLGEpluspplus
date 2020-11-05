@@ -8,12 +8,12 @@
 #include <glm/vec3.hpp>
 #include <glm/detail/type_mat.hpp>
 #include <glm/detail/type_mat4x4.hpp>
+#include "../objects/PhysicsBody.h"
+#include "PosAngle.h"
 
-class Camera {
+class Camera : public PosAngle {
 private:
-    glm::vec3 position;
-    float horizontalAngle;
-    float verticalAngle;
+    PhysicsBody* body;
     float fieldOfView;
 
     glm::mat4 viewMatrix;
@@ -21,29 +21,19 @@ private:
     glm::mat4 MVP;
 
 public:
-    Camera(glm::vec3 pos, float hAngle, float vAngle, float fov)
-            : position(pos), horizontalAngle(hAngle), verticalAngle(vAngle), fieldOfView(fov) {};
+    Camera(PhysicsBody* body, float fov)
+            : body(body), fieldOfView(fov) {};
 
-    const glm::vec3 &getPosition() const;
-    float getHorizontalAngle() const;
-    float getVerticalAngle() const;
+
     float getFieldOfView() const;
-
     const glm::mat4 &getViewMatrix() const;
     const glm::mat4 &getProjectionMatrix() const;
     const glm::mat4 &getMVP() const;
 
-    glm::vec3 getDirection() const;
-    glm::vec3 getRight() const;
-    glm::vec3 getUp() const;
-    glm::vec3 getHorizonForwards() const;
-
-    void setPosition(const glm::vec3 &position);
-    void setHorizontalAngle(float horizontalAngle);
-    void setVerticalAngle(float verticalAngle);
     void setFieldOfView(float fieldOfView);
 
     void updateMatrices(float fov, float near, float far);
+    void updatePosition();
 };
 
 

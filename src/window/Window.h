@@ -11,7 +11,9 @@
 #include <glm/vec4.hpp>
 #include <glm/detail/type_mat.hpp>
 #include <glm/detail/type_mat4x4.hpp>
-#include "Camera.h"
+
+class PhysicsBody;
+class Camera;
 
 class Window {
 private:
@@ -30,7 +32,7 @@ private:
 
 public:
 
-    Window(int width, int height, const std::string &name);
+    Window(int width, int height, PhysicsBody* player, const std::string &name);
 
     ~Window();
 

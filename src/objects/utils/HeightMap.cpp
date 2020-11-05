@@ -28,9 +28,7 @@ MeshData* HeightMap::createHeightMapMeshData(float length, float width, glm::vec
                                 lowerCorner.y,
                                 zStart + (float) j * sqSize};
 
-            auto h = 1.0 * std::sin(vertex.x) + 0.4 * std::cos(vertex.z);
-            h += 1.0 * std::sin(0.4*vertex.x) + 0.6 * std::cos(0.6*vertex.z);
-            h += 1.0 * std::sin(0.012*vertex.x) + 2.0 * std::cos(0.05*vertex.z);
+            auto h = getHeight({vertex.x, 0, vertex.z});
             vertex.y = h;
             height[i][j] = h;
 
@@ -64,28 +62,43 @@ MeshData* HeightMap::getMeshData() const {
     return meshData;
 }
 
-float HeightMap::getHeight(glm::vec3 pos) const {
-    float floorDx = (height.size()-1.0f) * squareSize;
-    float floorDz = (height[0].size()-1.0f) * squareSize;
+float HeightMap::getHeightFromMesh(glm::vec3 pos) const {
+
+    if (!isPositionAbove(pos)) {
+        return -FLT_MAX;
+    }
+    float dx = pos.x - corner.x;
+    float dz = pos.z - corner.z;
+
+    int xIndex = std::floor(dx / squareSize);
+    int zIndex = std::floor(dz / squareSize);
+
+    float xy00 = height[xIndex][zIndex];
+    float xy01 = height[xIndex][zIndex + 1];
+    float xy10 = height[xIndex + 1][zIndex];
+
+    float a = std::fmod(dx, squareSize);
+    float b = std::fmod(dz, squareSize);
+    float h = 0.5f * (xy10 * a + xy00 * (1.0f - a) + xy01 * b + xy00 * (1.0f - b));
+
+    return h;
+
+}
+
+float HeightMap::getZLength() const {
+    return (height[0].size() - 1.0f) * squareSize;
+}
+
+float HeightMap::getXLength() const {
+    return (height.size() - 1.0f) * squareSize;
+}
+
+bool HeightMap::isPositionAbove(glm::vec3 pos) const {
+    float floorDx = getXLength();
+    float floorDz = getZLength();
 
     float dx = pos.x - corner.x;
     float dz = pos.z - corner.z;
 
-    if (dx > 0 && dz > 0 && dx < floorDx && dz < floorDz) {
-        int xIndex = std::floor(dx / squareSize);
-        int zIndex = std::floor(dz / squareSize);
-
-        float xy00 = height[xIndex][zIndex];
-        float xy01 = height[xIndex][zIndex+1];
-        float xy10 = height[xIndex+1][zIndex];
-
-        float a = std::fmod(dx, squareSize);
-        float b = std::fmod(dz, squareSize);
-        float h = 0.5f*( xy10 * a + xy00 * (1.0f-a) + xy01 * b + xy00 * (1.0f-b) );
-
-        return h;
-    }
-    else {
-        return - FLT_MAX;
-    }
+    return dx > 0 && dz > 0 && dx < floorDx && dz < floorDz;
 }
