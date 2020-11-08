@@ -9,7 +9,8 @@
 #include <glm/glm.hpp>
 #include "../window/Camera.h"
 
-KeyboardInput::KeyboardInput(Window* handle_, PhysicsBody* body) : Input(handle_, {body}) {
+KeyboardInput::KeyboardInput(Window* handle_, PhysicsBody* body, int priority)
+                : Input(handle_, {body}, priority) {
     // Capture keys
     auto* window = handle->getWindow();
 

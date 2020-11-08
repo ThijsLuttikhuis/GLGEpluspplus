@@ -9,16 +9,22 @@
 #include <utility>
 #include <vector>
 #include "../PhysicsBody.h"
+#include "../utils/Priority.h"
 
-class Interaction {
+
+class Interaction : public Priority {
+
 protected:
     std::vector<PhysicsBody*> bodies;
 
 public:
-    explicit Interaction(std::vector<PhysicsBody*> bodies_)
-        : bodies(std::move(bodies_)) {};
+    Interaction(std::vector<PhysicsBody*> bodies, int priority)
+        : Priority(priority), bodies(std::move(bodies)) {};
 
     virtual ~Interaction() = default;
+
+
+
 
     virtual void update() = 0;
 };

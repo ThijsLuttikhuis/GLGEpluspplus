@@ -16,8 +16,8 @@ private:
     glm::vec3 forceStrength;
 
 public:
-    ConstantForce(std::vector<PhysicsBody*> physicsbody, glm::vec3 forceStrength)
-          : Interaction(std::move(physicsbody)), forceStrength(forceStrength) {};
+    ConstantForce(std::vector<PhysicsBody*> physicsbody, glm::vec3 forceStrength, int priority = 0)
+          : Interaction(std::move(physicsbody), priority), forceStrength(forceStrength) {};
 
     void update() override;
 

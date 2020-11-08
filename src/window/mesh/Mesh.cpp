@@ -14,7 +14,7 @@
 
 
 Mesh::Mesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_) :
-    handle(window), shader(shader_), vertexLocation(vertexLocation_), attrLocation(attrLocation_) {
+    Priority(0), handle(window), shader(shader_), vertexLocation(vertexLocation_), attrLocation(attrLocation_) {
     mesh = nullptr;
 
     vertexBuffer = {};

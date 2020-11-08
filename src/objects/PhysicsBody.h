@@ -8,8 +8,9 @@
 
 #include "../window/mesh/Mesh.h"
 #include "../window/PosAngle.h"
+#include "utils/Priority.h"
 
-class PhysicsBody : public PosAngle {
+class PhysicsBody : public PosAngle, public Priority {
 private:
     Mesh* mesh;
 
@@ -23,9 +24,9 @@ public:
     const glm::vec3 &getVelocity() const;
     const glm::vec3 &getForce() const;
 
-    explicit PhysicsBody(Mesh* mesh_) : PosAngle(), mesh(mesh_) {}
+    explicit PhysicsBody(Mesh* mesh_) : PosAngle(), Priority(0), mesh(mesh_) {}
     PhysicsBody(Mesh* mesh_, glm::vec3 position, glm::vec3 velocity, float horizontalAngle = 0, float verticalAngle = 0)
-                : PosAngle(position, horizontalAngle, verticalAngle), mesh(mesh_), velocity(velocity) {}
+                : PosAngle(position, horizontalAngle, verticalAngle), Priority(0), mesh(mesh_), velocity(velocity) {}
     virtual ~PhysicsBody() = default;
 
     void update(float dt);

@@ -16,7 +16,8 @@ protected:
     Window* handle;
 
 public:
-    explicit Input(Window* window, std::vector<PhysicsBody*> bodies) : Interaction(std::move(bodies)), handle(window) {};
+    Input(Window* window, std::vector<PhysicsBody*> bodies, int priority)
+            : Interaction(std::move(bodies), priority), handle(window) {};
 };
 
 

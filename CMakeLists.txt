@@ -78,7 +78,20 @@ set(OBJECTS_DIR
 		src/objects/Interactions/ConstantForce.cpp
 		src/objects/Interactions/ConstantForce.h
         src/window/mesh/HeightMapMesh.cpp
-		src/window/mesh/HeightMapMesh.h src/objects/HeightMapBody.cpp src/objects/HeightMapBody.h src/objects/utils/HeightMap.cpp src/objects/utils/HeightMap.h src/objects/Interactions/FloorInteraction.cpp src/objects/Interactions/FloorInteraction.h src/objects/utils/PerlinNoiseHeightMap.cpp src/objects/utils/PerlinNoiseHeightMap.h src/window/PosAngle.cpp src/window/PosAngle.h)
+		src/window/mesh/HeightMapMesh.h
+		src/objects/HeightMapBody.cpp
+		src/objects/HeightMapBody.h
+		src/objects/utils/HeightMap.cpp
+		src/objects/utils/HeightMap.h
+		src/objects/Interactions/FloorInteraction.cpp
+		src/objects/Interactions/FloorInteraction.h
+		src/objects/utils/PerlinNoiseHeightMap.cpp
+		src/objects/utils/PerlinNoiseHeightMap.h
+		src/window/PosAngle.cpp
+		src/window/PosAngle.h
+		src/objects/utils/PtrCompare.h
+		src/objects/utils/Priority.h
+		)
 
 # make executable
 add_executable(GLGEplusplus

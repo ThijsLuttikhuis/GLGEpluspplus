@@ -9,6 +9,7 @@
 #include <glm/vec2.hpp>
 #include <vector>
 #include "../shader/Shader.h"
+#include "../../objects/utils/Priority.h"
 
 class MeshData {
 public:
@@ -32,7 +33,7 @@ public:
 };
 
 
-class Mesh {
+class Mesh : public Priority {
 protected:
     Window* handle;
     Shader* shader;

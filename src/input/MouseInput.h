@@ -13,7 +13,7 @@ class MouseInput : public Input {
 private:
     float mouseSpeed = 0.005f;
 public:
-    MouseInput(Window* window, PhysicsBody* body);
+    MouseInput(Window* window, PhysicsBody* body, int priority = 0);
     void update() override;
 };
 

@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 
 #include <iostream>
+#include <set>
 
 #include "window/Window.h"
 
@@ -24,6 +25,7 @@
 #include "objects/utils/HeightMap.h"
 #include "objects/Interactions/FloorInteraction.h"
 #include "objects/utils/PerlinNoiseHeightMap.h"
+#include "objects/utils/PtrCompare.h"
 
 class Vars {
 private:
@@ -31,14 +33,14 @@ private:
     ColorShader* colorShader;
 public:
     Window* window;
-    std::vector<Mesh*> meshes;
-    std::vector<Interaction*> interactions;
-    std::vector<PhysicsBody*> bodies;
+    std::multiset<Mesh*, PtrCompare<Mesh>> meshes;
+    std::multiset<Interaction*, PtrCompare<Interaction>> interactions;
+    std::multiset<PhysicsBody*, PtrCompare<PhysicsBody>> bodies;
 
     bool initVars() {
         // create player
         auto* player = new PhysicsBody(nullptr, {0, 10, 0}, {0, 0, 0});
-        bodies.push_back(player);
+        bodies.insert(player);
 
         // create window
         window = new Window(1000, 700, player, "Window");
@@ -46,16 +48,15 @@ public:
             return false;
         }
 
-
         // create manual inputs
-        auto* mouse = new MouseInput(window, player);
-        auto* keyboard = new KeyboardInput(window, player);
-        interactions.push_back(mouse);
-        interactions.push_back(keyboard);
+        auto* mouse = new MouseInput(window, player, 10);
+        auto* keyboard = new KeyboardInput(window, player, 5);
+        interactions.insert(mouse);
+        interactions.insert(keyboard);
 
         // create force interactions
-        auto* gravity = new ConstantForce({player}, glm::vec3{0,-8.0f,0});
-        interactions.push_back(gravity);
+        auto* gravity = new ConstantForce({player}, glm::vec3{0,-8.0f,0}, 3);
+        interactions.insert(gravity);
 
         // create and compile shaders
         textureShader = new TextureShader();
@@ -78,16 +79,16 @@ public:
         Mesh* floor = new HeightMapMesh(window, colorShader, 0,1);
         auto* floorBuffer = heightMap->getMeshData();
         floor->setBuffer(floorBuffer);
-        meshes.push_back(floor);
+        meshes.insert(floor);
 
-        auto* floorInteraction = new FloorInteraction({player}, heightMap, 1.8f);
-        interactions.push_back(floorInteraction);
+        auto* floorInteraction = new FloorInteraction({player}, heightMap, 1.8f, -2);
+        interactions.insert(floorInteraction);
 
         // create sphere
         auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);
         Mesh* sphere = new ColorMesh(window, colorShader, 0, 1);
         sphere->setBuffer(sphereBuffer);
-        meshes.push_back(sphere);
+        meshes.insert(sphere);
 
         // create cube
         auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
@@ -95,7 +96,7 @@ public:
                                               0.0f, 0.0f);
         Mesh* cube = new TextureMesh(window, textureShader, 0, 1);
         cube->setBuffer(cubeBuffer);
-        meshes.push_back(cube);
+        meshes.insert(cube);
 
         // create second cube
         auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.2f, 1.2f,
@@ -103,7 +104,7 @@ public:
                                                0.0f, 0.0f);
         Mesh* cube2 = new TextureMesh(window, textureShader, 0, 1);
         cube2->setBuffer(cubeBuffer2);
-        meshes.push_back(cube2);
+        meshes.insert(cube2);
 
         return true;
     }
@@ -132,10 +133,10 @@ int main() {
     if (!success) {
         return 100;
     }
-    Window* window = vars.window;
-    std::vector<Mesh*> meshes = vars.meshes;
-    std::vector<Interaction*> interactions = vars.interactions;
-    std::vector<PhysicsBody*> bodies = vars.bodies;
+    auto* window = vars.window;
+    auto meshes = vars.meshes;
+    auto interactions = vars.interactions;
+    auto bodies = vars.bodies;
 
     while (true) {
         window->updateFrameTime();
@@ -146,11 +147,13 @@ int main() {
         // update inputs, physics and interactions
         for (auto &interaction : interactions) {
             interaction->update();
+            std::cout << interaction->priority << std::endl;
         }
 
         // update bodies
         for (auto &body : bodies) {
             body->update(dt);
+
         }
 
         // update output
