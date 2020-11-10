@@ -55,8 +55,6 @@ public:
         interactions.insert(keyboard);
 
         // create force interactions
-        auto* gravity = new ConstantForce({player}, glm::vec3{0,-8.0f,0}, 3);
-        interactions.insert(gravity);
 
         // create and compile shaders
         textureShader = new TextureShader();
@@ -81,8 +79,6 @@ public:
         floor->setBuffer(floorBuffer);
         meshes.insert(floor);
 
-        auto* floorInteraction = new FloorInteraction({player}, heightMap, 1.8f, -2);
-        interactions.insert(floorInteraction);
 
         // create sphere
         auto* sphereBuffer = Mesh::CreateSphere(2.0f, -4.0f, 1.99f, 0.0f, 0.0f, 0.0f);
@@ -92,11 +88,13 @@ public:
 
         // create cube
         auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
-                                              0.0f, 0.9f, 0.0f,
+                                              0.0f, 10.9f, 0.0f,
                                               0.0f, 0.0f);
         Mesh* cube = new TextureMesh(window, textureShader, 0, 1);
         cube->setBuffer(cubeBuffer);
+        auto* cubeBody = new PhysicsBody(cube, glm::vec3{0.0f, 10.9f, 0.0f});
         meshes.insert(cube);
+        bodies.insert(cubeBody);
 
         // create second cube
         auto* cubeBuffer2 = Mesh::CreateCuboid(0.5f, 2.2f, 1.2f,
@@ -106,28 +104,32 @@ public:
         cube2->setBuffer(cubeBuffer2);
         meshes.insert(cube2);
 
+        auto* floorInteraction = new FloorInteraction({player, cubeBody}, heightMap, 1.8f, -2);
+        auto* gravity = new ConstantForce({player, cubeBody}, glm::vec3{0,-8.0f,0}, 3);
+
+        interactions.insert(gravity);
+        interactions.insert(floorInteraction);
+
         return true;
     }
 
     void deleteVars() {
         delete colorShader;
         delete textureShader;
-        for (auto* interaction : interactions) {
+        for (auto &interaction : interactions) {
             delete interaction;
         }
-        for (auto* mesh : meshes) {
+        for (auto &mesh : meshes) {
             delete mesh;
         }
-        for (auto* body : bodies) {
+        for (auto &body : bodies) {
             delete body;
         }
     }
 };
 
 int main() {
-    // create window
-
-
+    // initialize variables
     Vars vars = Vars();
     bool success = vars.initVars();
     if (!success) {
@@ -138,6 +140,7 @@ int main() {
     auto interactions = vars.interactions;
     auto bodies = vars.bodies;
 
+    // main loop
     while (true) {
         window->updateFrameTime();
         window->clear();
@@ -147,13 +150,11 @@ int main() {
         // update inputs, physics and interactions
         for (auto &interaction : interactions) {
             interaction->update();
-            std::cout << interaction->priority << std::endl;
         }
 
         // update bodies
         for (auto &body : bodies) {
             body->update(dt);
-
         }
 
         // update output

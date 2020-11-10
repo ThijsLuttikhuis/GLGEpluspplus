@@ -28,7 +28,6 @@ Mesh::~Mesh() {
     glDeleteBuffers(1, &attrBuffer);
 }
 
-
 int Mesh::triangleSize() const {
     return mesh->vertices.size();
 }
@@ -204,5 +203,9 @@ MeshData* Mesh::CreatePlane(float length, float width, float xCenter, float yCen
         }
     }
 
+    return mesh;
+}
+
+MeshData* Mesh::getMeshData() const {
     return mesh;
 }

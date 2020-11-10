@@ -8,6 +8,11 @@ void PhysicsBody::update(float dt) {
     velocity = velocity + force * dt;
     position = position + velocity * dt;
     force = glm::vec3{0};
+
+    if (mesh) {
+        glm::vec3 dPos =  velocity * dt;
+        mesh->getMeshData()->translateMesh(dPos);
+    }
 }
 
 const glm::vec3 &PhysicsBody::getVelocity() const {

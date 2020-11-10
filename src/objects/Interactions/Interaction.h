@@ -20,11 +20,10 @@ protected:
 public:
     Interaction(std::vector<PhysicsBody*> bodies, int priority)
         : Priority(priority), bodies(std::move(bodies)) {};
-
     virtual ~Interaction() = default;
 
-
-
+    void addBody(PhysicsBody* body);
+    void setBodies(std::vector<PhysicsBody*> bodies);
 
     virtual void update() = 0;
 };

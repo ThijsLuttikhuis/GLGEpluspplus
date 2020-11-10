@@ -22,12 +22,17 @@ public:
     std::vector<float> colorData;
     std::vector<uint> indices;
 
-    void translateMesh(float dX, float dY, float dZ) {
-        for (auto &vertex : vertices) {
-            vertex.x += dX;
-            vertex.y += dY;
-            vertex.z += dZ;
+    //TODO: USE OPENGL TO TRANSLATE MATRIX!!
+    void translateMesh(glm::vec3 dPos) {
+        for (int i = 0; i < vertices.size(); i++) {
+            vertices[i].x += 1;
         }
+        for (auto &&vertex : vertices) {
+            vertex += dPos;
+        }
+    }
+    void translateMesh(float dX, float dY, float dZ) {
+        translateMesh(glm::vec3(dX, dY, dZ));
     }
     virtual uint getSize() const = 0;
 };
@@ -39,6 +44,9 @@ protected:
     Shader* shader;
 
     MeshData* mesh;
+
+
+protected:
 
     uint vertexBuffer;
     uint attrBuffer;
@@ -55,6 +63,7 @@ public:
     virtual void disableAttributeBuffer() = 0;
 
     int triangleSize() const;
+    MeshData* getMeshData() const;
 
     void draw();
 
