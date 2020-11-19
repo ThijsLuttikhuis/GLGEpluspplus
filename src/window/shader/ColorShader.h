@@ -15,7 +15,7 @@ public:
 
     void setAttr(uint attr) override {};
 
-    void update(Window* handle) override;
+    void update(Window* handle,  glm::vec3 &position) override;
 };
 
 

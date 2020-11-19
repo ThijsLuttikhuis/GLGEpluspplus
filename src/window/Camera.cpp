@@ -17,8 +17,6 @@ void Camera::setFieldOfView(float fieldOfView_) {
     Camera::fieldOfView = fieldOfView_;
 }
 
-
-
 const glm::mat4 &Camera::getViewMatrix() const {
     return viewMatrix;
 }

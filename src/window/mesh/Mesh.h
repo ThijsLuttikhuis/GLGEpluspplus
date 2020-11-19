@@ -22,31 +22,18 @@ public:
     std::vector<float> colorData;
     std::vector<uint> indices;
 
-    //TODO: USE OPENGL TO TRANSLATE MATRIX!!
-    void translateMesh(glm::vec3 dPos) {
-        for (int i = 0; i < vertices.size(); i++) {
-            vertices[i].x += 1;
-        }
-        for (auto &&vertex : vertices) {
-            vertex += dPos;
-        }
-    }
-    void translateMesh(float dX, float dY, float dZ) {
-        translateMesh(glm::vec3(dX, dY, dZ));
-    }
     virtual uint getSize() const = 0;
 };
 
 
 class Mesh : public Priority {
+private:
+    glm::vec3 position;
+    bool drawMesh = true;
 protected:
     Window* handle;
     Shader* shader;
-
     MeshData* mesh;
-
-
-protected:
 
     uint vertexBuffer;
     uint attrBuffer;
@@ -64,6 +51,12 @@ public:
 
     int triangleSize() const;
     MeshData* getMeshData() const;
+
+    void setPosition(const glm::vec3 &position_);
+    const glm::vec3 &getPosition() const;
+
+    bool getDrawMesh() const;
+    void setDrawMesh(bool drawMesh);
 
     void draw();
 

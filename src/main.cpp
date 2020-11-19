@@ -39,7 +39,7 @@ public:
 
     bool initVars() {
         // create player
-        auto* player = new PhysicsBody(nullptr, {0, 10, 0}, {0, 0, 0});
+        auto* player = new PhysicsBody(nullptr, {10, 10, 10}, {0, 0, 0});
         bodies.insert(player);
 
         // create window
@@ -87,12 +87,12 @@ public:
         meshes.insert(sphere);
 
         // create cube
-        auto* cubeBuffer = Mesh::CreateCuboid(4.0f, 2.2f, 1.2f,
-                                              0.0f, 10.9f, 0.0f,
+        auto* cubeBuffer = Mesh::CreateCuboid(3.0f, 2.2f, 4.2f,
+                                              0.0f, 0.0f, 0.0f,
                                               0.0f, 0.0f);
         Mesh* cube = new TextureMesh(window, textureShader, 0, 1);
         cube->setBuffer(cubeBuffer);
-        auto* cubeBody = new PhysicsBody(cube, glm::vec3{0.0f, 10.9f, 0.0f});
+        auto* cubeBody = new PhysicsBody(cube, glm::vec3{0.0f, 50.9f, 0.0f});
         meshes.insert(cube);
         bodies.insert(cubeBody);
 
@@ -175,6 +175,7 @@ int main() {
             break;
         }
     }
+
     vars.deleteVars();
     delete window;
 

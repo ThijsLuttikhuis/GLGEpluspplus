@@ -34,7 +34,7 @@ public:
 
     virtual void setAttr(uint attr) = 0;
 
-    virtual void update(Window* handle) = 0;
+    virtual void update(Window* handle, glm::vec3 &position) = 0;
 
     static uint getTextureFromDDS(const std::string &fileName);
 

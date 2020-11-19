@@ -3,13 +3,20 @@
 //
 
 #include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "ColorShader.h"
 #include "../Camera.h"
 
-void ColorShader::update(Window* handle) {
+void ColorShader::update(Window* handle, glm::vec3 &position) {
     // update MVP
     auto* camera = handle->getCamera();
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &camera->getMVP()[0][0]);
+    auto P = camera->getProjectionMatrix();
+    auto V = camera->getViewMatrix();
+    auto M = glm::mat4(1.0);
+    M = glm::translate(M, position);
+
+    auto MVP = P*V*M;
+    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
 
 //    // bind texture in Texture Unit 0
 //    glActiveTexture(GL_TEXTURE0);

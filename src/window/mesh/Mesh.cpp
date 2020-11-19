@@ -33,8 +33,12 @@ int Mesh::triangleSize() const {
 }
 
 void Mesh::draw() {
+    if (!drawMesh) {
+        return;
+    }
+
     shader->useShader();
-    shader->update(handle);
+    shader->update(handle, position);
 
     // draw triangles
     enableAttributeBuffer();
@@ -208,4 +212,20 @@ MeshData* Mesh::CreatePlane(float length, float width, float xCenter, float yCen
 
 MeshData* Mesh::getMeshData() const {
     return mesh;
+}
+
+void Mesh::setDrawMesh(bool drawMesh_) {
+    drawMesh = drawMesh_;
+}
+
+bool Mesh::getDrawMesh() const {
+    return drawMesh;
+}
+
+const glm::vec3 &Mesh::getPosition() const {
+    return position;
+}
+
+void Mesh::setPosition(const glm::vec3 &position_) {
+    position = position_;
 }

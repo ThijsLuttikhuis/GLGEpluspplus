@@ -10,11 +10,11 @@ void TextureMesh::setBuffer(MeshData* mesh_) {
 
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(glm::vec3), &mesh->vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(glm::vec3), &mesh->vertices[0], GL_STREAM_DRAW);
 
     glGenBuffers(1, &attrBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->colorData.size() * mesh->getSize(), &mesh->colorData[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh->colorData.size() * mesh->getSize(), &mesh->colorData[0], GL_STREAM_DRAW);
 }
 
 void TextureMesh::enableAttributeBuffer() {
