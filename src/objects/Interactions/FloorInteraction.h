@@ -18,8 +18,8 @@ private:
     float staticFrictionThreshold = 2.5f;
 public:
 
-    FloorInteraction(std::vector<PhysicsBody*> physicsbody, HeightMap* floor, float height = 0, int priority = 0)
-    : Interaction(std::move(physicsbody), priority), floor(floor), heightAboveFloor(height) {};
+    FloorInteraction(std::string id, std::vector<PhysicsBody*> physicsbody, HeightMap* floor, float height = 0, int priority = 0)
+    : Interaction(std::move(id), std::move(physicsbody), priority), floor(floor), heightAboveFloor(height) {};
 
     void update() override;
 };

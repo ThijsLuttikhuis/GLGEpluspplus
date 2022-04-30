@@ -5,12 +5,14 @@
 #include <GL/glew.h>
 #include <iostream>
 #include "Window.h"
+#include <utility>
 #include <glm/vec4.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Camera.h"
 
-Window::Window(int width_, int height_,  PhysicsBody* player, const std::string &name) : width(width_), height(height_) {
+Window::Window(std::string id, int width_, int height_, PhysicsBody* player, const std::string &name)
+      : id(std::move(id)), width(width_), height(height_) {
 
     // initialize GLFW
     if (!glfwInit()) {
@@ -21,7 +23,7 @@ Window::Window(int width_, int height_,  PhysicsBody* player, const std::string 
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // For Mac OS
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
@@ -59,6 +61,7 @@ Window::Window(int width_, int height_,  PhysicsBody* player, const std::string 
     glEnable(GL_CULL_FACE);
 
     // Generate vertex array
+    vertexArrayID = {};
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 }
@@ -71,17 +74,16 @@ Window::~Window() {
 }
 
 
-
 void Window::clear(int flags) {
     glClear(flags);
 }
 
 void Window::clear() {
-    clear((uint)GL_COLOR_BUFFER_BIT | (uint)GL_DEPTH_BUFFER_BIT);
+    clear((uint) GL_COLOR_BUFFER_BIT | (uint) GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::setClearColor(const glm::vec4 &color) {
-    glClearColor(color[0], color[1],color[2],color[3]);
+    glClearColor(color[0], color[1], color[2], color[3]);
 }
 
 void Window::swapBuffers() {
@@ -112,13 +114,13 @@ void Window::updateFrameTime() {
     auto t = glfwGetTime();
     lastFrameTime = t - time;
     time = t;
-    std::cout << lastFrameTime * 1000 << " ms" << std::endl;
+    std::cout << "Frame Time: " << lastFrameTime * 1000 << " ms" << std::endl;
 }
 
 void Window::update() {
     auto w = static_cast<float>(width);
     auto h = static_cast<float>(height);
-    auto aspectRatio = w/h;
+    auto aspectRatio = w / h;
     auto near = 0.1f;
     auto far = 100.0f;
 
@@ -134,18 +136,18 @@ glm::vec2 Window::getCursorPos() {
 }
 
 void Window::setCursorPosToCenter() {
-    glfwSetCursorPos(window, width/2.0, height/2.0);
+    glfwSetCursorPos(window, width / 2.0, height / 2.0);
 }
 
 void Window::setCursorPos(glm::vec2 mousePos) {
-    glfwSetCursorPos(window, (double)mousePos.x, (double)mousePos.y);
+    glfwSetCursorPos(window, (double) mousePos.x, (double) mousePos.y);
 }
 
 glm::vec2 Window::getCursorPosRelativeToCenter() {
     double xpos;
     double ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
-    double xrel = width/2.0 - xpos;
-    double yrel = height/2.0 - ypos;
+    double xrel = width / 2.0 - xpos;
+    double yrel = height / 2.0 - ypos;
     return {xrel, yrel};
 }

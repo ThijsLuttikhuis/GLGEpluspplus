@@ -12,7 +12,7 @@ class KeyboardInput : public Input {
 private:
     float moveSpeed = 12.0f;
 public:
-    KeyboardInput(Window* handle, PhysicsBody* body, int priority = 0);
+    KeyboardInput(std::string id, Window* handle, PhysicsBody* body, int priority = 0);
 
     void update() override;
 

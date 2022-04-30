@@ -20,16 +20,22 @@ protected:
     uint attrID;
 
     static std::string getShaderCode(const std::string &shader);
+
     static void compileShader(const std::string &shaderCode, const int &shaderID, int &result, int &logLength);
+
     static void linkProgram(const uint &pID, const uint &vsID, const uint &fsID, int &result, int &logLength);
+
     static void checkLog(const int &shaderID, int &logLength);
+
 public:
     Shader() : shaderID(), fragmentShaderID(), programID(), matrixID(), attrID() {};
+
     virtual ~Shader();
 
     bool loadShader(const std::string &vertexShader, const std::string &fragmentShader);
 
     void setUniformLocationMVP(const std::string &MVPName);
+
     void setUniformLocationAttr(const std::string &textureName);
 
     virtual void setAttr(uint attr) = 0;

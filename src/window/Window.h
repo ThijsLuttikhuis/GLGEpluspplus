@@ -17,6 +17,8 @@ class Camera;
 
 class Window {
 private:
+    std::string id;
+
     int width;
     int height;
 
@@ -31,10 +33,13 @@ private:
     uint vertexArrayID;
 
 public:
-
-    Window(int width, int height, PhysicsBody* player, const std::string &name);
+    Window(std::string id, int width, int height, PhysicsBody* player, const std::string &name);
 
     ~Window();
+
+    const std::string &getID() const {
+        return id;
+    }
 
     GLFWwindow* getWindow() const;
 

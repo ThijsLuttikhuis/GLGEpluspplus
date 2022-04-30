@@ -41,7 +41,7 @@ protected:
     uint vertexLocation;
     uint attrLocation;
 public:
-    Mesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_);
+    Mesh(std::string id, Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_, int priority);
     virtual ~Mesh();
 
     virtual void setBuffer(MeshData* mesh_) = 0;

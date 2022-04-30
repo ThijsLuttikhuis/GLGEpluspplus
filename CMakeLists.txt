@@ -91,7 +91,7 @@ set(OBJECTS_DIR
 		src/window/PosAngle.h
 		src/objects/utils/PtrCompare.h
 		src/objects/utils/Priority.h
-		)
+        src/GameController.cpp src/GameController.h src/readwrite/YamlReader.cpp src/readwrite/YamlReader.h)
 
 # make executable
 add_executable(GLGEplusplus

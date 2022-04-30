@@ -24,10 +24,12 @@ private:
     std::vector<AmpPhaseFreq> zAmpPhaseFreqs;
 
 public:
-    float getHeight(glm::vec3 pos) const override;
-
-    PerlinNoiseHeightMap(float length, float width, glm::vec3 lowerCorner, float squareSize)
-          : HeightMap(lowerCorner, squareSize) {
+    PerlinNoiseHeightMap(std::string id_, float length_, float width_, glm::vec3 lowerCorner, float squareSize_) {
+        id = std::move(id_);
+        length = length_;
+        width = width_;
+        corner = lowerCorner;
+        squareSize = squareSize_;
 
         xAmpPhaseFreqs = {};
         zAmpPhaseFreqs = {};
@@ -35,14 +37,16 @@ public:
             AmpPhaseFreq xapf((float)i/8.0f, (float)i+2.0f, 2.0f/((float)i+1.0f));
             xAmpPhaseFreqs.emplace_back(xapf);
 
-            AmpPhaseFreq zapf((float)i*i/100.0f, (float)i-2.0f, (float)i/40.0f);
+            AmpPhaseFreq zapf((float)(i*i)/100.0f, (float)i-2.0f, (float)i/40.0f);
             zAmpPhaseFreqs.emplace_back(zapf);
         }
         auto lengthSize = static_cast<int>(length/squareSize);
         auto widthSize = static_cast<int>(width/squareSize);
         height = std::vector<std::vector<float>>(lengthSize, std::vector<float>(widthSize, 0.0f));
-        meshData = createHeightMapMeshData(length, width, lowerCorner, squareSize);
+        meshData = createHeightMapMeshData();
     }
+
+    float getHeight(glm::vec3 pos) const override;
 };
 
 

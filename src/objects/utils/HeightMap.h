@@ -12,28 +12,47 @@
 
 class HeightMap {
 protected:
-    std::vector<std::vector<float>> height;
-    glm::vec3 corner;
-    float squareSize;
+    std::string id;
+    std::vector<std::vector<float>> height{};
+    glm::vec3 corner{};
+    float squareSize = 0;
 
-    MeshData* meshData;
+    float length = 0;
+    float width = 0;
+
+    MeshData* meshData = nullptr;
 
 public:
+    HeightMap() = default;
+
+    HeightMap(std::string id, float length, float width, glm::vec3 lowerCorner, float squareSize)
+          : id(std::move(id)), corner(lowerCorner), squareSize(squareSize), length(length), width(width), meshData(nullptr) {
+
+        auto lengthSize = static_cast<int>(length/squareSize);
+        auto widthSize = static_cast<int>(width/squareSize);
+        height = std::vector<std::vector<float>>(lengthSize, std::vector<float>(widthSize, 0.0f));
+        meshData = createHeightMapMeshData();
+    }
+
+    const std::string &getID() const {
+        return id;
+    }
+
     float getXLength() const;
+
     float getZLength() const;
 
     bool isPositionAbove(glm::vec3 pos) const;
-    virtual float getHeight(glm::vec3 pos) const = 0;
+
+    virtual float getHeight(glm::vec3 pos) const;
+
     float getHeightFromMesh(glm::vec3 pos) const;
 
     MeshData* getMeshData() const;
 
-    MeshData* createHeightMapMeshData(float length, float width, glm::vec3 lowerCorner, float sqSize);
-    void updateMesh(HeightMapMesh* heightMapMesh);
+    MeshData* createHeightMapMeshData();
 
-    HeightMap(glm::vec3 lowerCorner, float squareSize)
-            : corner(lowerCorner), squareSize(squareSize), meshData(nullptr) {
-    }
+    void updateMesh(HeightMapMesh* heightMapMesh);
 };
 
 

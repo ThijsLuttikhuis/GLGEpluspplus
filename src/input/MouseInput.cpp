@@ -10,7 +10,9 @@
 #include "../window/Window.h"
 #include "../window/Camera.h"
 
-MouseInput::MouseInput(Window* handle_, PhysicsBody* body, int priority) : Input(handle_, {body}, priority) {
+MouseInput::MouseInput(std::string id, Window* handle_, PhysicsBody* body, int priority)
+      : Input(std::move(id), handle_, {body}, priority) {
+
     auto* window = handle->getWindow();
 
     glfwPollEvents();

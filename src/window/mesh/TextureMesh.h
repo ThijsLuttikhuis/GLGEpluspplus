@@ -7,6 +7,8 @@
 
 #include "Mesh.h"
 
+#include <utility>
+
 class TextureMeshData : public MeshData {
 public:
     TextureMeshData() : MeshData() {};
@@ -14,7 +16,7 @@ public:
     std::vector<glm::vec3> normals;
 
     uint getSize() const override {
-        return sizeof(colorData[0])*2;
+        return sizeof(colorData[0]) * 2;
     }
 };
 
@@ -23,11 +25,14 @@ private:
 
 
 public:
-    TextureMesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_)
-        : Mesh(window, shader_, vertexLocation_, attrLocation_) {};
+    TextureMesh(std::string id, Window* window, Shader* shader_,
+                uint vertexLocation_, uint attrLocation_, int priority = 0)
+          : Mesh(std::move(id), window, shader_, vertexLocation_, attrLocation_, priority) {};
 
     void setBuffer(MeshData* mesh_) override;
+
     void enableAttributeBuffer() override;
+
     void disableAttributeBuffer() override;
 };
 

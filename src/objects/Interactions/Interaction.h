@@ -18,8 +18,8 @@ protected:
     std::vector<PhysicsBody*> bodies;
 
 public:
-    Interaction(std::vector<PhysicsBody*> bodies, int priority)
-        : Priority(priority), bodies(std::move(bodies)) {};
+    Interaction(std::string id, std::vector<PhysicsBody*> bodies, int priority)
+        : Priority(std::move(id), priority), bodies(std::move(bodies)) {};
     virtual ~Interaction() = default;
 
     void addBody(PhysicsBody* body);

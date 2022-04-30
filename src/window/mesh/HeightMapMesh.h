@@ -12,8 +12,9 @@ class HeightMapMesh : public ColorMesh {
 private:
 
 public:
-    HeightMapMesh(Window* window, Shader* shader_, uint vertexLocation_, uint attrLocation_)
-    : ColorMesh(window, shader_, vertexLocation_, attrLocation_) {};
+    HeightMapMesh(std::string id, Window* window, Shader* shader_,
+                  uint vertexLocation_, uint attrLocation_, int priority = 0)
+          : ColorMesh(std::move(id), window, shader_, vertexLocation_, attrLocation_, priority) {};
 
 };
 

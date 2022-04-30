@@ -29,7 +29,6 @@ const glm::mat4 &Camera::getMVP() const {
     return MVP;
 }
 
-
 void Camera::updateMatrices(float aspectRatio, float near, float far) {
     projectionMatrix = glm::perspective(glm::radians(fieldOfView), aspectRatio, near, far);
 

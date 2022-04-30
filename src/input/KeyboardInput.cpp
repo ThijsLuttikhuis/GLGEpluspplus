@@ -9,8 +9,8 @@
 #include <glm/glm.hpp>
 #include "../window/Camera.h"
 
-KeyboardInput::KeyboardInput(Window* handle_, PhysicsBody* body, int priority)
-                : Input(handle_, {body}, priority) {
+KeyboardInput::KeyboardInput(std::string id, Window* handle_, PhysicsBody* body, int priority)
+                : Input(std::move(id), handle_, {body}, priority) {
     // Capture keys
     auto* window = handle->getWindow();
 
@@ -62,8 +62,8 @@ void KeyboardInput::update() {
     bodies[0]->setForce(dVel + force);
 }
 
-bool KeyboardInput::getExit(Window* handle_) {
-    auto* window = handle_->getWindow();
+bool KeyboardInput::getExit(Window* handle) {
+    auto* window = handle->getWindow();
 
     return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
            glfwWindowShouldClose(window) != 0;

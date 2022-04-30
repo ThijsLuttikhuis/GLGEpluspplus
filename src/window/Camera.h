@@ -24,7 +24,6 @@ public:
     Camera(PhysicsBody* body, float fov)
             : body(body), fieldOfView(fov) {};
 
-
     float getFieldOfView() const;
     const glm::mat4 &getViewMatrix() const;
     const glm::mat4 &getProjectionMatrix() const;

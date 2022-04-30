@@ -1,0 +1,158 @@
+.glge:
+  physicsbody:
+    id:       "player";
+    imesh:     nullptr;
+    pos:
+      x:  10.0;
+      y:  10.0;
+      z:  10.0;
+      ;
+    vel:
+      x:  0.0;
+      y:  0.0;
+      z:  0.0;
+      ;
+    ;
+
+  window:
+    id:       "window";
+    width:    1366;
+    height:   768;
+    player:   "player";
+    name:     "window";
+    ;
+
+  mouseinput:
+    id:       "mouse_main";
+    iwindow:  "window";
+    player:   "player";
+    prio:     10;
+    ;
+
+  keyboardinput:
+    id:       "keyboard_main";
+    iwindow:  "window";
+    player:   "player";
+    prio:     5;
+    ;
+
+  textureshader:
+    id:       "texture1";
+    vertsh:   "window/shader/TransformUVVertexShader.vertexshader";
+    fragsh:   "window/shader/TextureFragmentShader.fragmentshader";
+    uvdds:    "uvtemplate.DDS";
+    ;
+
+  colorshader:
+    id:       "color1";
+    vertsh:   "window/shader/TransformColorVertexShader.vertexshader";
+    fragsh:   "window/shader/ColorFragmentShader.fragmentshader";
+    ;
+
+  perlinnoiseheightmap:
+    id:             "pnheightmap";
+    length:         200.0;
+    width:          100.0;
+    corner:
+      x: -50.0;
+      y: -50.0;
+      z: -50.0;
+      ;
+    squaresize:     1.0;
+    ;
+
+  heightmapmesh:
+    id:             "heightmapmesh";
+    iheightmap:     "pnheightmap";
+    iwindow:        "window";
+    icolorshader:   "color1";
+    vertexlocation: 0;
+    attrlocation:   1;
+    ;
+
+  cuboidmesh:
+    id:             "cube1";
+    length:         3.0;
+    height:         2.2;
+    width:          4.2;
+    center:
+      x: 0.0;
+      y: 0.0;
+      z: 0.0;
+      ;
+    hangle:         0.0;
+    vangle:         0.0;
+    iwindow:        "window";
+    itextureshader: "texture1";
+    vertexlocation: 0;
+    attrlocation:   1;
+    ;
+
+  physicsbody:
+    id:       "cube1_physicsbody";
+    imesh:     "cube1";
+    pos:
+      x: 0.0;
+      y: 50.9;
+      z: 0.0;
+      ;
+    ;
+
+  cuboidmesh:
+    id:             "cube2";
+    length:         0.5;
+    height:         2.2;
+    width:          1.2;
+    center:
+      x: 4.0;
+      y: 0.9;
+      z: 0.0;
+      ;
+    hangle:         0.0;
+    vangle:         0.0;
+    iwindow:        "window";
+    itextureshader: "texture1";
+    vertexlocation: 0;
+    attrlocation:   1;
+    ;
+
+  floorinteraction:
+    id:             "floorinteraction";
+    iphysicsbody:   "player";
+    iphysicsbody:   "cube1_physicsbody";
+    iheightmap:     "pnheightmap";
+    height:         1.8;
+    prio:           -2;
+    ;
+
+  constantforce:
+    id:             "gravity";
+    iphysicsbody:   "player";
+    iphysicsbody:   "cube1_physicsbody";
+    force:
+      x: 0.0;
+      y: -8.0;
+      z: 0.0;
+      ;
+    prio:           3;
+    ;
+
+  cuboidmesh:
+    id:             "cube3";
+    length:         155.0;
+    height:         2.2;
+    width:          1.2;
+    center:
+      x: 4.0;
+      y: 0.9;
+      z: 0.0;
+      ;
+    hangle:         0.0;
+    vangle:         0.0;
+    iwindow:        "window";
+    itextureshader: "texture1";
+    vertexlocation: 0;
+    attrlocation:   1;
+    ;
+
+  ;

@@ -16,8 +16,8 @@ protected:
     Window* handle;
 
 public:
-    Input(Window* window, std::vector<PhysicsBody*> bodies, int priority)
-            : Interaction(std::move(bodies), priority), handle(window) {};
+    Input(std::string id, Window* window, std::vector<PhysicsBody*> bodies, int priority)
+            : Interaction(std::move(id), std::move(bodies), priority), handle(window) {};
 };
 
 
